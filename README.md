@@ -63,3 +63,26 @@ py rename_images.py \
     --folder "path/to/folder" "path/to/folder" \
     --excel-file "path/to/excel/file"
 ```
+
+## generate_card_json.py
+
+A script that generates card JSON from images and Excel files. It matches each image to the corresponding Excel file, ensuring no duplicate cards appear within the same pack (though duplicates can exist across different packs). The script uses icon list to determine card type in the specific position (top right) in the image.
+
+### Requirements
+
+- pandas
+
+### Arguments
+
+- `--image-folder`: Folder path to images.
+- `--excel-files` (Multiple): Excel file paths, separate by space.
+- `--output-name`: Output file name.
+
+### Usage Example
+
+```bash
+py generate_card_json.py \
+    --image-folder "path/to/image/folder" \
+    --excel-files "path/to/excel/file" "path/to/excel/file" \
+    --output-name "path/to/output/file"
+```
