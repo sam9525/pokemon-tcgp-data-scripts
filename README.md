@@ -31,3 +31,35 @@ py -3.11 pokemon_crawler.py \
           --pack-key AN001_0020_00_000 \
           --pack-name Charizard
 ```
+
+## rename_images.py
+
+A script that renames all images in a folder based on an Excel file. The script reads the image name from the Excel file and appends the folder name to the end of each image filename.
+
+The Excel files can be obtained using the script pokemon_crawler.py—only need to crawl the expansion.
+
+```bash
+PK_10_000110_00 -> cPK_10_000110_00_NAZONOKUSA_C_{folder_name}
+```
+
+> [!NOTE]
+> The images is expected to be downloaded from [Google Drive](https://drive.google.com/drive/folders/1_2YURmd7dYnCX3VuDLQobLNSJbAeavpt?usp=drive_link)
+
+### Requirements
+
+- pandas
+
+### Arguments
+
+- `--folder` (Multiple): Folder path to rename images, separate by space.
+- `--excel-file`: Excel file path.
+- `--dry-run` (Default): Enable dry run mode (no changes).
+- `--no-dry-run`: Disable dry run mode (execute changes).
+
+### Usage Example
+
+```bash
+py rename_images.py \
+    --folder "path/to/folder" "path/to/folder" \
+    --excel-file "path/to/excel/file"
+```
