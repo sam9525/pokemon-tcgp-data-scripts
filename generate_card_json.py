@@ -5,6 +5,7 @@ import json
 import cv2
 import numpy as np
 import argparse
+from check_duplicate_cards import check_duplicate_cards
 
 
 def load_icons():
@@ -121,7 +122,9 @@ def generate_json(folder_path, excel_paths, output_path):
             for name in df["Image Name"].astype(str).str.strip():
                 try:
                     parts = name.split("_")
-                    if len(parts) > 2:
+                    if len(parts) > 3:
+                        if parts[3] == "02":
+                            continue
                         ids.add(parts[2])
                 except Exception:
                     continue
@@ -207,6 +210,11 @@ def generate_json(folder_path, excel_paths, output_path):
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(final_result, f, indent=2)
+
+    # Check duplicates
+    print("Generating json file for duplicates...")
+    check_duplicate_cards(OUTPUT_FILE)
+
     print("Done.")
 
 
