@@ -86,3 +86,33 @@ py generate_card_json.py \
     --excel-files "path/to/excel/file" "path/to/excel/file" \
     --output-name "path/to/output/file"
 ```
+
+## generate_special_card_json.py
+
+A script that generates special card JSON from images and Excel files (duplicate cards JSON). The script uses an icon list to determine:
+
+- Card type from the top-right position in the image
+- Card fight energy from the bottom-left position
+- Card weakness from the bottom-right position
+- Whether the card is a trainer or tool from the color of the top-left position
+
+### Requirements
+
+- pandas
+- numpy
+- cv2
+
+### Arguments
+
+- `--image-folder`: Folder path to images.
+- `--duplicate-list`: Duplicate list file path.
+- `--output-name`: Output file name.
+
+### Usage Example
+
+```bash
+py generate_special_card_json.py \
+    --image-folder "path/to/image/folder" \
+    --duplicate-list "path/to/duplicate/list" \
+    --output-name "path/to/output/file"
+```
