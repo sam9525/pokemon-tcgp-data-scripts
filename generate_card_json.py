@@ -6,19 +6,7 @@ import cv2
 import numpy as np
 import argparse
 from check_duplicate_cards import check_duplicate_cards
-
-
-def load_icons():
-    """
-    Load icons from type-icons folder.
-    """
-    icons = {}
-    for icon_path in glob.glob(os.path.join("type-icons", "*.png")):
-        name = os.path.splitext(os.path.basename(icon_path))[0]
-        img = cv2.imread(icon_path, cv2.IMREAD_COLOR)
-        if img is not None:
-            icons[name] = img
-    return icons
+from load_match_icon import load_icons, match_icon
 
 
 def get_image_type(image_path, icons):
@@ -45,39 +33,9 @@ def get_image_type(image_path, icons):
 
         crop = img[top:bottom, left:right]
 
-        best_score = -1
-        best_type = "unknown"
+        best_type = match_icon(crop, icons, threshold=0.5)
 
-        # Search scales around 0.25
-        scales = np.linspace(0.25, 0.35, 5)
-
-        for scale in scales:
-            # Try to match each icon and the best one will be returned
-            for name, icon in icons.items():
-                # Resize icon
-                new_width = int(icon.shape[1] * scale)
-                new_height = int(icon.shape[0] * scale)
-                resized_icon = cv2.resize(
-                    icon, (new_width, new_height), interpolation=cv2.INTER_AREA
-                )
-
-                if (
-                    resized_icon.shape[0] > crop.shape[0]
-                    or resized_icon.shape[1] > crop.shape[1]
-                ):
-                    continue
-
-                res = cv2.matchTemplate(crop, resized_icon, cv2.TM_CCOEFF_NORMED)
-                min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
-
-                if max_val > best_score:
-                    best_score = max_val
-                    best_type = name
-
-        # Threshold check
-        # If the best score is larger than 0.6
-        # Means the icon is matched well enough
-        if best_score > 0.6:
+        if best_type:
             return best_type
         else:
             return "unknown"
