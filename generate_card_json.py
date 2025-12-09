@@ -218,7 +218,7 @@ def generate_json(folder_path, excel_paths, output_path):
     print("Done.")
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="Generate card JSON from images.")
     parser.add_argument("--image-folder", help="Path to image folder", required=True)
     parser.add_argument(
@@ -229,3 +229,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     generate_json(args.image_folder, args.excel_files, args.output_name)
+
+
+if __name__ == "__main__":
+    main()

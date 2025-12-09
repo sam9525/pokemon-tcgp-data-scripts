@@ -84,7 +84,7 @@ def rename_images(folder_path, excel_path, dry_run=True):
     print(f"\nTotal files {'would be ' if dry_run else ''}renamed: {count_renamed}")
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="Rename images based on Excel file.")
     parser.add_argument("--folder", nargs="+", help="Folder(s) containing images")
     parser.add_argument("--excel", help="Excel file with names")
@@ -103,3 +103,7 @@ if __name__ == "__main__":
 
     for folder in args.folder:
         rename_images(folder, args.excel, args.dry_run)
+
+
+if __name__ == "__main__":
+    main()
