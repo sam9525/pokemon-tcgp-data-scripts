@@ -1,0 +1,712 @@
+{
+  "KAINOKASEKI": {
+    "type": "none",
+    "trainer": "tool",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "KOURANOKASEKI": {
+    "type": "none",
+    "trainer": "tool",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "HIMITSUNOKOHAKU": {
+    "type": "none",
+    "trainer": "tool",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "ERIKA": {
+    "type": "none",
+    "trainer": "trainer",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "KASUMI": {
+    "type": "none",
+    "trainer": "trainer",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "KATSURA": {
+    "type": "none",
+    "trainer": "trainer",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "KYOU": {
+    "type": "none",
+    "trainer": "trainer",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "SAKAKI": {
+    "type": "none",
+    "trainer": "trainer",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "TAKESHI": {
+    "type": "none",
+    "trainer": "trainer",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "NATSUME": {
+    "type": "none",
+    "trainer": "trainer",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "MATISSE": {
+    "type": "none",
+    "trainer": "trainer",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "KIZUGUSURI": {
+    "type": "none",
+    "trainer": "tool",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "SPEEDER": {
+    "type": "none",
+    "trainer": "tool",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "MONSTERBALL": {
+    "type": "none",
+    "trainer": "tool",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "HAKASENOKENKYU": {
+    "type": "none",
+    "trainer": "trainer",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "HANDSCOPE": {
+    "type": "none",
+    "trainer": "tool",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "POKEMONZUKAN": {
+    "type": "none",
+    "trainer": "tool",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "REDCARD": {
+    "type": "none",
+    "trainer": "tool",
+    "fightEnergy": "none",
+    "weakness": "none"
+  },
+  "000050": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "000060": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "000080": {
+    "boosterPack": [
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000090": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo"
+    ]
+  },
+  "000120": {
+    "boosterPack": [
+      "Charizard",
+      "Pikachu"
+    ]
+  },
+  "000140": {
+    "boosterPack": [
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000150": {
+    "boosterPack": [
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000160": {
+    "boosterPack": [
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000170": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo"
+    ]
+  },
+  "000180": {
+    "boosterPack": [
+      "Charizard",
+      "Pikachu"
+    ]
+  },
+  "000260": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000270": {
+    "fightEnergy": [
+      "colorless"
+    ],
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000280": {
+    "fightEnergy": [
+      "colorless"
+    ],
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000290": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000300": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000310": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "000370": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "000390": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "000420": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000430": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000460": {
+    "weakness": "lightning"
+  },
+  "000470": {
+    "weakness": "lightning"
+  },
+  "000480": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000510": {
+    "fightEnergy": [
+      "colorless"
+    ],
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000520": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000570": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000580": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000590": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "000600": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "000640": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "000720": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "000770": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "000850": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "000860": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "000870": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "000880": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "000910": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000920": {
+    "weakness": "metal",
+    "fightEnergy": [
+      "colorless"
+    ],
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000930": {
+    "weakness": "metal",
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001030": {
+    "weakness": "lightning"
+  },
+  "001040": {
+    "weakness": "lightning"
+  },
+  "001050": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001060": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001100": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001110": {
+    "fightEnergy": [
+      "colorless"
+    ],
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001120": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001130": {
+    "weakness": "metal"
+  },
+  "001140": {
+    "weakness": "metal"
+  },
+  "001150": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "001180": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001190": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001300": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "001330": {
+    "fightEnergy": [
+      "colorless"
+    ],
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001340": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001350": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001360": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001370": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001380": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001410": {
+    "weakness": "psychic"
+  },
+  "001420": {
+    "weakness": "psychic"
+  },
+  "001430": {
+    "weakness": "psychic"
+  },
+  "001440": {
+    "weakness": "psychic"
+  },
+  "001450": {
+    "weakness": "psychic"
+  },
+  "001460": {
+    "weakness": "psychic"
+  },
+  "001510": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "001540": {
+    "weakness": "psychic"
+  },
+  "001550": {
+    "weakness": "psychic"
+  },
+  "001600": {
+    "weakness": "psychic",
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "001610": {
+    "weakness": "psychic",
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "001620": {
+    "weakness": "psychic",
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001630": {
+    "weakness": "psychic",
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001640": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001650": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001720": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "001730": {
+    "fightEnergy": [
+      "colorless"
+    ]
+  },
+  "001790": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001800": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001830": {
+    "weakness": "none",
+    "fightEnergy": [
+      "water",
+      "lightning"
+    ]
+  },
+  "001840": {
+    "weakness": "none",
+    "fightEnergy": [
+      "water",
+      "lightning",
+      "colorless"
+    ]
+  },
+  "001850": {
+    "weakness": "none",
+    "fightEnergy": [
+      "water",
+      "lightning",
+      "colorless"
+    ]
+  },
+  "001860": {
+    "weakness": "lightning"
+  },
+  "001870": {
+    "weakness": "lightning"
+  },
+  "001880": {
+    "weakness": "lightning"
+  },
+  "001890": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001900": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001910": {
+    "weakness": "lightning"
+  },
+  "001920": {
+    "weakness": "lightning"
+  },
+  "001980": {
+    "weakness": "lightning",
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001990": {
+    "weakness": "lightning",
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "002000": {
+    "weakness": "lightning",
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "002060": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "002080": {
+    "weakness": "lightning"
+  },
+  "002100": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "002110": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "002120": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "002130": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000360": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000960": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "001290": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "000940": {
+    "boosterPack": [
+      "Charizard",
+      "Mewtwo",
+      "Pikachu"
+    ]
+  },
+  "002770": {
+    "weakness": "psychic"
+  }
+}

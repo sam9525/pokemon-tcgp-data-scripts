@@ -7,6 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from generate_card_json import generate_json
 from check_duplicate_cards import check_duplicate_cards
+from generate_special_card_json import generate_special_card_data
 
 image_folder = r"./A1-test-jp"
 duplicates_list = r"./A1_duplicates.json"
@@ -40,6 +41,20 @@ class TestDuplicateCard(unittest.TestCase):
 
         # Run the generation
         result = check_duplicate_cards("./A1_expected_result.json")
+
+        # Assertions
+        self.assertEqual(result, expected_data)
+
+
+class TestSpecialCard(unittest.TestCase):
+    def test_special_card(self):
+
+        # Expected output
+        with open(r"./A1_expected_special_result.json", "r") as f:
+            expected_data = json.load(f)
+
+        # Run the generation
+        result = generate_special_card_data(image_folder, duplicates_list)
 
         # Assertions
         self.assertEqual(result, expected_data)
