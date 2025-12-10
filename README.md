@@ -116,3 +116,7 @@ py generate_special_card_json.py \
     --duplicate-list "path/to/duplicate/list" \
     --output-name "path/to/output/file"
 ```
+
+### Special Card Detect Example
+
+![Card Detect Example](card_detect_example.png)
