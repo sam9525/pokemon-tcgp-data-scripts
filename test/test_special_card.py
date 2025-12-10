@@ -6,8 +6,10 @@ import json
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from generate_card_json import generate_json
+from check_duplicate_cards import check_duplicate_cards
 
 image_folder = r"./A1-test-jp"
+duplicates_list = r"./A1_duplicates.json"
 
 # Verify image exists
 if not os.path.exists(image_folder):
@@ -25,6 +27,19 @@ class TestCardGenerator(unittest.TestCase):
             image_folder,
             ["./A1_Charizard.xlsx", "./A1_Mewtwo.xlsx", "./A1_Pikachu.xlsx"],
         )
+
+        # Assertions
+        self.assertEqual(result, expected_data)
+
+
+class TestDuplicateCard(unittest.TestCase):
+    def test_duplicate_card(self):
+        # Expected output
+        with open(duplicates_list, "r") as f:
+            expected_data = json.load(f)
+
+        # Run the generation
+        result = check_duplicate_cards("./A1_expected_result.json")
 
         # Assertions
         self.assertEqual(result, expected_data)
