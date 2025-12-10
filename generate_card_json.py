@@ -19,7 +19,7 @@ def get_image_type(image_path, icons):
         icons (dict): Dictionary of icons.
     """
     try:
-        img = cv2.imread(image_path)
+        img = cv2.imdecode(np.fromfile(image_path, dtype=np.uint8), cv2.IMREAD_COLOR)
         if img is None:
             return "unknown"
 
@@ -45,7 +45,7 @@ def get_image_type(image_path, icons):
         return "unknown"
 
 
-def generate_json(folder_path, excel_paths, output_path):
+def generate_json(folder_path, excel_paths):
     """
     Generate card JSON.
     Args:
@@ -63,8 +63,6 @@ def generate_json(folder_path, excel_paths, output_path):
         else:
             pack_name = os.path.splitext(filename)[0]
         EXCEL_FILES[pack_name] = path
-
-    OUTPUT_FILE = f"json/{output_path}.json"
 
     print("Loading icons...")
     icons = load_icons()
@@ -164,16 +162,7 @@ def generate_json(folder_path, excel_paths, output_path):
     for p in result:
         final_result[p] = {k: v for k, v in result[p].items() if v}
 
-    print(f"Writing to {OUTPUT_FILE}...")
-    os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        json.dump(final_result, f, indent=2)
-
-    # Check duplicates
-    print("Generating json file for duplicates...")
-    check_duplicate_cards(OUTPUT_FILE)
-
-    print("Done.")
+    return final_result
 
 
 def main():
@@ -186,7 +175,28 @@ def main():
 
     args = parser.parse_args()
 
-    generate_json(args.image_folder, args.excel_files, args.output_name)
+    final_result = generate_json(args.image_folder, args.excel_files)
+
+    OUTPUT_FILE = f"json/{args.output_name}.json"
+
+    print(f"Writing to {OUTPUT_FILE}...")
+    os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        json.dump(final_result, f, indent=2)
+
+    # Check duplicates
+    print("Generating json file for duplicates...")
+    duplicate_list = check_duplicate_cards(OUTPUT_FILE)
+
+    # File name
+    file_name = os.path.basename(OUTPUT_FILE)
+    file_name = os.path.splitext(file_name)[0]
+
+    # Output the result
+    with open(f"json/{file_name}_duplicates.json", "w", encoding="utf-8") as f:
+        json.dump(duplicate_list, f, indent=2)
+
+    print("Done.")
 
 
 if __name__ == "__main__":

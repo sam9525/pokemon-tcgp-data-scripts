@@ -176,7 +176,7 @@ def process_single_card(image_path, duplicate_data):
     return key, final_result
 
 
-def generate_card_data(image_folder, duplicate_list):
+def generate_special_card_data(image_folder, duplicate_list):
     results = {}
     non_pokemon = {}
 
@@ -223,7 +223,7 @@ def main():
 
     args = parser.parse_args()
 
-    final_results = generate_card_data(args.image_folder, args.duplicate_list)
+    final_results = generate_special_card_data(args.image_folder, args.duplicate_list)
 
     if final_results:
         OUTPUT_FILE = f"json/{args.output}.json"

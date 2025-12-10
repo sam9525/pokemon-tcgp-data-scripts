@@ -37,10 +37,4 @@ def check_duplicate_cards(input_file):
     # Sort by card_id for consistent output
     sorted_duplicates = dict(sorted(duplicates.items()))
 
-    # File name
-    file_name = os.path.basename(input_file)
-    file_name = os.path.splitext(file_name)[0]
-
-    # Output the result
-    with open(f"json/{file_name}_duplicates.json", "w", encoding="utf-8") as f:
-        json.dump(sorted_duplicates, f, indent=2)
+    return sorted_duplicates
