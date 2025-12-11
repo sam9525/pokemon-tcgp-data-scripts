@@ -32,7 +32,7 @@ async def crawler(exorp, set, pack_key, pack_name):
             url = f"https://www.pokemon-zone.com/cards/?pack_keys={pack_key}"
 
         print(f"Navigating to {url}...")
-        await page.goto(url)
+        await page.goto(url, wait_until="domcontentloaded")
 
         print("Waiting for page to load...")
         await page.wait_for_timeout(5000)
