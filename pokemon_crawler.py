@@ -5,7 +5,7 @@ import os
 import argparse
 
 
-async def crawler(exorp, set, pack_key, pack_name):
+async def crawler(exorp, set, pack_key=None, pack_name=None, pbar=None):
     """
     Crawl Pokemon cards names from Pokemon-Zone.
     Args:
@@ -13,9 +13,19 @@ async def crawler(exorp, set, pack_key, pack_name):
         set (str): Set code to crawl (A1, A2, etc.).
         pack_key (str): Pack key to crawl (AN001_0020_00_000, etc.).
         pack_name (str): Pack name to crawl (Charizard, etc.).
+        pbar (tqdm, optional): Progress bar object.
     """
+
+    def log(msg):
+        if pbar:
+            pbar.write(msg)
+        else:
+            print(msg)
+
     async with async_playwright() as p:
-        print("Launching browser...")
+        log("Launching browser...")
+        if pbar:
+            pbar.update(5)
         browser = await p.chromium.launch(
             headless=True,
             # Disable automation detection
@@ -40,20 +50,22 @@ async def crawler(exorp, set, pack_key, pack_name):
         elif exorp == "p":
             url = f"https://www.pokemon-zone.com/cards/?pack_keys={pack_key}"
 
-        print(f"Navigating to {url}...")
+        log(f"Navigating to {url}...")
+        if pbar:
+            pbar.update(5)
         await page.goto(url, wait_until="domcontentloaded")
 
-        print("Waiting for page to load...")
+        log("Waiting for page to load...")
+        if pbar:
+            pbar.update(5)
         await page.wait_for_timeout(5000)
 
         # Check if we have any cards initially
         count = await page.locator("div.card-grid__cell").count()
-        print(f"Initial card count: {count}")
+        log(f"Initial card count: {count}")
 
         if count == 0:
-            print(
-                "No cards found initially. Taking debug screenshot and dumping HTML..."
-            )
+            log("No cards found initially. Taking debug screenshot and dumping HTML...")
 
         # Handle infinite scroll
         last_height = await page.evaluate("document.body.scrollHeight")
@@ -62,17 +74,22 @@ async def crawler(exorp, set, pack_key, pack_name):
 
         # Scroll until we reach the bottom
         while scroll_attempts < max_scroll_attempts:
-            print(f"Scrolling... (Attempt {scroll_attempts + 1})")
+            msg = f"Scrolling... (Attempt {scroll_attempts + 1})"
+            if pbar:
+                pbar.set_description(msg)
+            else:
+                print(msg)
+
             await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
             await page.wait_for_timeout(3000)  # Wait for load
 
             new_height = await page.evaluate("document.body.scrollHeight")
             if new_height == last_height:
-                print("No height change, waiting longer...")
+                log("No height change, waiting longer...")
                 await page.wait_for_timeout(5000)
                 new_height = await page.evaluate("document.body.scrollHeight")
                 if new_height == last_height:
-                    print("Reached bottom of page.")
+                    log("Reached bottom of page.")
                     break
 
             last_height = new_height
@@ -80,14 +97,21 @@ async def crawler(exorp, set, pack_key, pack_name):
 
             # Print count to see progress
             current_count = await page.locator("div.card-grid__cell").count()
-            print(f"Current card count: {current_count}")
 
-        print("Finished scrolling. Extracting images...")
+            if pbar:
+                pbar.set_description(f"Current card count: {current_count}")
+                pbar.update(5)
+            else:
+                print(f"Current card count: {current_count}")
+
+        log("Finished scrolling. Extracting images...")
 
         # Extract images
         images = await page.locator(
             "div.card-grid__cell img.game-card-image__img"
         ).all()
+
+        total_images = len(images)
 
         image_data = []
         for i, img in enumerate(images):
@@ -105,13 +129,13 @@ async def crawler(exorp, set, pack_key, pack_name):
 
                     image_data.append({"Image Name": clean_name})
                 except IndexError:
-                    print(f"Warning: Could not parse URL format: {src}")
+                    log(f"Warning: Could not parse URL format: {src}")
                     image_data.append({"Image Name": src})
 
-            if i % 50 == 0:
-                print(f"Processed {i} images...")
+            if pbar:
+                pbar.update(int(total_images / 70))
 
-        print(f"Total found: {len(image_data)} images.")
+        log(f"Total found: {len(image_data)} images.")
 
         await browser.close()
 
@@ -128,11 +152,14 @@ async def crawler(exorp, set, pack_key, pack_name):
             # Create a directory for the output file
             os.makedirs("lists", exist_ok=True)
             df.to_excel(os.path.join("lists", output_file), index=False)
-            print(
+            log(
                 f"Successfully saved to {os.path.abspath(os.path.join('lists', output_file))}"
             )
+            if pbar:
+                pbar.update(10)
+
         else:
-            print("No images found.")
+            log("No images found.")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 import sys
 import os
+import asyncio
 from PyQt6 import QtCore, QtGui, QtWidgets, uic
 from PyQt6.QtWidgets import (
     QApplication,
@@ -10,6 +11,7 @@ from PyQt6.QtWidgets import (
     QMessageBox,
 )
 from PyQt6.QtGui import QIcon
+from tabs.crawler import CrawlerTab
 
 
 class TCGPToolGUI(QMainWindow):
@@ -21,6 +23,9 @@ class TCGPToolGUI(QMainWindow):
 
         # Hide pack key group box
         self.packKeyGB.setVisible(False)
+
+        # Initialize Tab 1
+        self.tab1 = CrawlerTab(self)
 
 
 def main():
