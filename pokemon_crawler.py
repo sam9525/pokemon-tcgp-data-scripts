@@ -27,6 +27,7 @@ async def crawler(exorp, set, pack_key=None, pack_name=None, pbar=None):
         if pbar:
             pbar.update(5)
         browser = await p.chromium.launch(
+            channel="msedge",
             headless=True,
             # Disable automation detection
             args=["--disable-blink-features=AutomationControlled"],

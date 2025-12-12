@@ -12,6 +12,7 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtGui import QIcon
 from tabs.crawler import CrawlerTab
+from tabs.image_renamer import ImageRenamerTab
 
 
 class TCGPToolGUI(QMainWindow):
@@ -26,6 +27,9 @@ class TCGPToolGUI(QMainWindow):
 
         # Initialize Tab 1
         self.tab1 = CrawlerTab(self)
+
+        # Initialize Tab 2
+        self.tab2 = ImageRenamerTab(self)
 
 
 def main():
