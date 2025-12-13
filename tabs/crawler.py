@@ -81,11 +81,9 @@ class CrawlerTab:
         if combobox == self.main_window.expComboB:
             self.selected_exp_name = combobox.currentText()
             self.selected_exp_code = combobox.itemData(current_index)
-            print(self.selected_exp_name, self.selected_exp_code)
         elif combobox == self.main_window.packKeyComboB:
             self.selected_pack_name = combobox.currentText()
             self.selected_pack_code = combobox.itemData(current_index)
-            print(self.selected_pack_name, self.selected_pack_code)
 
     def update_progress(self, n):
         self.main_window.crawlerProgressBar.setValue(

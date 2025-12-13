@@ -1,16 +1,10 @@
 from PyQt6.QtCore import QObject, QThread, pyqtSignal
 from PyQt6.QtWidgets import QMessageBox, QDialog, QVBoxLayout, QTextEdit, QPushButton
 from folder_file_selection import (
-    select_folders,
-    select_single_folder,
-    select_single_file,
-    clear_all,
-    remove_selected,
-    show_folder_info,
-    update_folder_display,
-    update_file_display,
-    get_selected_folders,
-    clear_file,
+    select_paths,
+    update_display,
+    remove_selected_paths,
+    clear_paths,
 )
 
 from rename_images import rename_images
@@ -69,28 +63,92 @@ class ImageRenamerTab:
 
         # Select folders
         self.main_window.browseFolderBtnInTab2.clicked.connect(
-            lambda: select_folders(self.main_window)
+            self.select_folders_handler
         )
         self.main_window.clearFoldersBtnInTab2.clicked.connect(
-            lambda: clear_all(self.main_window)
+            self.clear_folders_handler
         )
         self.main_window.removeSelectedBtnInTab2.clicked.connect(
-            lambda: remove_selected(self.main_window)
-        )
-        self.main_window.folderListWidget.itemDoubleClicked.connect(
-            lambda: show_folder_info(self.main_window)
+            self.remove_selected_handler
         )
 
         # Select file
-        self.main_window.browseFileBtnInTab2.clicked.connect(
-            lambda: select_single_file(self.main_window)
-        )
-        self.main_window.clearFileBtnInTab2.clicked.connect(
-            lambda: clear_file(self.main_window)
-        )
+        self.main_window.browseFileBtnInTab2.clicked.connect(self.select_file_handler)
+        self.main_window.clearFileBtnInTab2.clicked.connect(self.clear_file_handler)
         self.main_window.startRenameBtn.clicked.connect(
             lambda: self.run_renamer(dry_run=None)
         )
+
+    def select_folders_handler(self):
+        added = select_paths(
+            self.main_window,
+            self.main_window.selected_rename_folders,
+            mode="folder",
+            multi=True,
+        )
+        update_display(
+            list_widget=self.main_window.folderListWidget,
+            line_edit=self.main_window.folderLineEdit,
+            count_label=self.main_window.countLabel,
+            items=self.main_window.selected_rename_folders,
+        )
+        if added > 0:
+            self.main_window.statusbar.showMessage(
+                f"Added {added} folder(s). Total: {len(self.main_window.selected_rename_folders)}"
+            )
+
+    def clear_folders_handler(self):
+        if clear_paths(self.main_window, self.main_window.selected_rename_folders):
+            update_display(
+                list_widget=self.main_window.folderListWidget,
+                line_edit=self.main_window.folderLineEdit,
+                count_label=self.main_window.countLabel,
+                items=self.main_window.selected_rename_folders,
+            )
+            self.main_window.statusbar.showMessage("All folders cleared")
+
+    def remove_selected_handler(self):
+        removed = remove_selected_paths(
+            self.main_window.folderListWidget, self.main_window.selected_rename_folders
+        )
+        if removed > 0:
+            update_display(
+                list_widget=self.main_window.folderListWidget,
+                line_edit=self.main_window.folderLineEdit,
+                count_label=self.main_window.countLabel,
+                items=self.main_window.selected_rename_folders,
+            )
+            self.main_window.statusbar.showMessage(f"Removed {removed} folder(s)")
+
+    def select_file_handler(self):
+        self.main_window.selected_rename_file.clear()
+
+        select_paths(
+            self.main_window,
+            self.main_window.selected_rename_file,
+            mode="file",
+            multi=False,
+            file_filter="Excel Files (*.xlsx *.xls);;All Files (*)",
+        )
+
+        update_display(
+            line_edit=self.main_window.fileLineEdit,
+            items=self.main_window.selected_rename_file,
+        )
+        if self.main_window.selected_rename_file:
+            self.main_window.statusbar.showMessage(
+                f"Selected file: {self.main_window.selected_rename_file[0]}"
+            )
+
+    def clear_file_handler(self):
+        if clear_paths(
+            self.main_window, self.main_window.selected_rename_file, confirm=False
+        ):
+            update_display(
+                line_edit=self.main_window.fileLineEdit,
+                items=self.main_window.selected_rename_file,
+            )
+            self.main_window.statusbar.showMessage("Excel File cleared")
 
     def update_progress(self, n):
         self.main_window.renamerProgressBar.setValue(
@@ -158,7 +216,8 @@ class ImageRenamerTab:
         else:
             isDryRun = self.main_window.dryRunCB.isChecked()
         folders = self.main_window.selected_rename_folders
-        excel_path = self.main_window.selected_rename_file
+
+        excel_path = self.main_window.selected_rename_file[0]
 
         # Worker setup
         self.worker = RenamerWorker(folders, excel_path, isDryRun)

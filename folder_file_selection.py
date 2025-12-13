@@ -1,8 +1,5 @@
 import os
-from PyQt6 import QtCore, QtGui, QtWidgets, uic
 from PyQt6.QtWidgets import (
-    QApplication,
-    QMainWindow,
     QFileDialog,
     QListView,
     QTreeView,
@@ -10,159 +7,177 @@ from PyQt6.QtWidgets import (
 )
 
 
-def select_folders(window):
-    """Open dialog to select multiple folders"""
-    # Try the multiple selection method first
-    try:
-        dialog = QFileDialog()
-        dialog.setFileMode(QFileDialog.FileMode.Directory)
-        dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
-        dialog.setOption(QFileDialog.Option.ShowDirsOnly, True)
+def select_paths(
+    parent, current_paths, mode="folder", multi=True, file_filter="All Files (*)"
+):
+    """
+    Open dialog to select multiple folders or files.
+    Returns True if paths were added, False otherwise.
 
-        # Enable multiple selection
-        file_view = dialog.findChild(QListView, "listView")
-        if file_view:
-            file_view.setSelectionMode(QListView.SelectionMode.ExtendedSelection)
+    Args:
+        parent: The parent widget.
+        current_paths: List of current paths.
+        mode: "folder" or "file".
+        multi: Whether to allow multiple selection.
+        file_filter: File filter for file selection.
+    Returns:
+        True if paths were added, False otherwise.
+    """
+    added_count = 0
+    new_paths = []
 
-        tree_view = dialog.findChild(QTreeView)
-        if tree_view:
-            tree_view.setSelectionMode(QTreeView.SelectionMode.ExtendedSelection)
+    if mode == "folder":
+        if multi:
+            # Try the multiple selection method first
+            try:
+                dialog = QFileDialog()
+                dialog.setFileMode(QFileDialog.FileMode.Directory)
+                dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
+                dialog.setOption(QFileDialog.Option.ShowDirsOnly, True)
 
-        if dialog.exec():
-            new_folders = dialog.selectedFiles()
+                # Enable multiple selection
+                file_view = dialog.findChild(QListView, "listView")
+                if file_view:
+                    file_view.setSelectionMode(
+                        QListView.SelectionMode.ExtendedSelection
+                    )
 
-            # Add only unique folders
-            added_count = 0
-            for folder in new_folders:
-                if folder not in window.selected_folders:
-                    window.selected_folders.append(folder)
-                    added_count += 1
+                tree_view = dialog.findChild(QTreeView)
+                if tree_view:
+                    tree_view.setSelectionMode(
+                        QTreeView.SelectionMode.ExtendedSelection
+                    )
 
-            update_folder_display(window)
-            if added_count > 0:
-                window.statusbar.showMessage(
-                    f"Added {added_count} folder(s). Hold Ctrl/Cmd to select multiple folders.",
-                    5000,
-                )
-    except Exception as e:
-        print(f"Error in select_folders: {e}")
-        # Fallback to simple single folder selection
-        select_single_folder(window)
-
-
-def select_single_folder(window):
-    """Fallback method to select a single folder"""
-    folder = QFileDialog.getExistingDirectory(
-        None,
-        "Select Folder",
-        "",
-        QFileDialog.Option.ShowDirsOnly | QFileDialog.Option.DontResolveSymlinks,
-    )
-
-    if folder:
-        if folder not in window.selected_folders:
-            window.selected_folders.append(folder)
-            update_folder_display(window)
-            window.statusbar.showMessage(
-                f"Added 1 folder. Click Browse again to add more folders.", 5000
-            )
+                if dialog.exec():
+                    new_paths = dialog.selectedFiles()
+            except Exception as e:
+                print(f"Error in select_paths (multi-folder): {e}")
+                return select_paths(parent, current_paths, mode="folder", multi=False)
         else:
-            window.statusbar.showMessage("Folder already in the list", 3000)
+            folder = QFileDialog.getExistingDirectory(
+                parent,
+                "Select Folder",
+                "",
+                QFileDialog.Option.ShowDirsOnly
+                | QFileDialog.Option.DontResolveSymlinks,
+            )
+            if folder:
+                new_paths = [folder]
+
+    elif mode == "file":
+        if multi:
+            files, _ = QFileDialog.getOpenFileNames(
+                parent,
+                "Select Files",
+                "",
+                file_filter,
+            )
+            if files:
+                new_paths = files
+        else:
+            file, _ = QFileDialog.getOpenFileName(
+                parent,
+                "Select File",
+                "",
+                file_filter,
+            )
+            if file:
+                new_paths = [file]
+
+    # Process new paths
+    for path in new_paths:
+        if path not in current_paths:
+            current_paths.append(path)
+            added_count += 1
+
+    return added_count
 
 
-def select_single_file(window):
-    """Fallback method to select a single file"""
-    file = QFileDialog.getOpenFileName(
-        None,
-        "Select File",
-        "",
-        "Excel Files (*.xlsx *.xls);;All Files (*)",
-    )
+def update_display(list_widget=None, line_edit=None, count_label=None, items=None):
+    """
+    Update the display with current selection
 
-    if file:
-        window.selected_file = file[0]
-        update_file_display(window)
-        filename = os.path.basename(file[0])
-        window.statusbar.showMessage(
-            f"Added {filename}. Click Browse again to choose another excel file.",
-            5000,
-        )
+    Args:
+        list_widget: The list widget to update.
+        line_edit: The line edit to update.
+        count_label: The count label to update.
+        items: The items to display.
+    """
+    if items is None:
+        items = []
+
+    # Update the line edit with semi-colon separated paths
+    if line_edit is not None:
+        if items:
+            line_edit.setText(" ".join(items))
+        else:
+            line_edit.clear()
+
+    # Update the list widget
+    if list_widget is not None:
+        list_widget.clear()
+        list_widget.addItems(items)
+
+    # Update the count label
+    if count_label is not None:
+        count = len(items)
+        count_label.setText(f"Total items: {count}")
 
 
-def clear_all(window):
-    """Clear all selected folders"""
-    if window.selected_folders:
+def remove_selected_paths(list_widget, current_paths):
+    """
+    Remove selected items from the list and return number of removed items
+
+    Args:
+        list_widget: The list widget to update.
+        current_paths: List of current paths.
+
+    Returns:
+        Number of removed items.
+    """
+    if list_widget is None or not current_paths:
+        return 0
+
+    selected_items = list_widget.selectedItems()
+    if not selected_items:
+        return 0
+
+    removed_count = 0
+    for item in selected_items:
+        path = item.text()
+        if path in current_paths:
+            current_paths.remove(path)
+            removed_count += 1
+
+    return removed_count
+
+
+def clear_paths(parent, current_paths, confirm=True):
+    """
+    Clear all selected paths. Returns True if cleared, False if cancelled.
+
+    Args:
+        parent: The parent widget.
+        current_paths: List of current paths.
+        confirm: Whether to confirm the action.
+
+    Returns:
+        True if cleared, False if cancelled.
+    """
+    if not current_paths:
+        return False
+
+    if confirm:
         reply = QMessageBox.question(
-            window,
+            parent,
             "Clear All",
-            "Are you sure you want to clear all selected folders?",
+            "Are you sure you want to clear all selected items?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.No,
         )
 
-        if reply == QMessageBox.StandardButton.Yes:
-            window.selected_folders.clear()
-            update_folder_display(window)
-            window.statusbar.showMessage("All folders cleared", 3000)
-    else:
-        window.statusbar.showMessage("No folders to clear", 3000)
+        if reply != QMessageBox.StandardButton.Yes:
+            return False
 
-
-def remove_selected(window):
-    """Remove selected items from the list"""
-    selected_items = window.folderListWidget.selectedItems()
-
-    if not selected_items:
-        window.statusbar.showMessage("No items selected to remove", 3000)
-        return
-
-    for item in selected_items:
-        folder_path = item.text()
-        if folder_path in window.selected_folders:
-            window.selected_folders.remove(folder_path)
-
-    update_folder_display(window)
-    window.statusbar.showMessage(f"Removed {len(selected_items)} folder(s)", 3000)
-
-
-def show_folder_info(item):
-    """Show information about the double-clicked folder"""
-    folder_path = item.text()
-    QMessageBox.information(None, "Folder Path", f"Full path:\n{folder_path}")
-
-
-def update_folder_display(window):
-    """Update the display with current folder selection"""
-    # Update the line edit with semi-colon separated paths
-    if window.selected_folders:
-        window.folderLineEdit.setText(" ".join(window.selected_folders))
-    else:
-        window.folderLineEdit.clear()
-
-    # Update the list widget
-    window.folderListWidget.clear()
-    window.folderListWidget.addItems(window.selected_folders)
-
-    # Update the count label
-    count = len(window.selected_folders)
-    window.countLabel.setText(f"Total folders: {count}")
-
-
-def update_file_display(window):
-    """Update the display with current file selection"""
-    if window.selected_file:
-        window.fileLineEdit.setText(window.selected_file)
-    else:
-        window.fileLineEdit.clear()
-
-
-def clear_file(window):
-    """Clear the selected file"""
-    window.selected_file = None
-    update_file_display(window)
-    window.statusbar.showMessage("Excel File cleared", 3000)
-
-
-def get_selected_folders(window):
-    """Return the list of selected folders"""
-    return window.selected_folders.copy()
+    current_paths.clear()
+    return True
