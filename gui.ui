@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>460</height>
+    <width>456</width>
+    <height>497</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -176,6 +176,9 @@
               <layout class="QHBoxLayout" name="horizontalLayout">
                <item>
                 <widget class="QLineEdit" name="folderLineEdit">
+                 <property name="locale">
+                  <locale language="English" country="UnitedStates"/>
+                 </property>
                  <property name="readOnly">
                   <bool>true</bool>
                  </property>
@@ -199,7 +202,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="clearBtnInTab2">
+                <widget class="QPushButton" name="clearFoldersBtnInTab2">
                  <property name="text">
                   <string>Clear</string>
                  </property>
@@ -222,7 +225,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QListWidget" name="folderListWidget"/>
+              <widget class="QListWidget" name="folderListWidget">
+               <property name="locale">
+                <locale language="English" country="UnitedStates"/>
+               </property>
+              </widget>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -269,7 +276,10 @@
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_8">
              <item>
-              <widget class="QLineEdit" name="folderLineEdit_2">
+              <widget class="QLineEdit" name="fileLineEdit">
+               <property name="locale">
+                <locale language="English" country="UnitedStates"/>
+               </property>
                <property name="readOnly">
                 <bool>true</bool>
                </property>
@@ -279,7 +289,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="browseFolderBtnInTab2_2">
+              <widget class="QPushButton" name="browseFileBtnInTab2">
                <property name="text">
                 <string>Browse...</string>
                </property>
@@ -293,7 +303,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="clearBtnInTab2_2">
+              <widget class="QPushButton" name="clearFileBtnInTab2">
                <property name="text">
                 <string>Clear</string>
                </property>
@@ -344,7 +354,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QProgressBar" name="progressBar">
+           <widget class="QProgressBar" name="renamerProgressBar">
             <property name="value">
              <number>0</number>
             </property>
@@ -540,7 +550,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>500</width>
+     <width>456</width>
      <height>21</height>
     </rect>
    </property>

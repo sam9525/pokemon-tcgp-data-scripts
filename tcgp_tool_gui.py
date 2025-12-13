@@ -25,6 +25,12 @@ class TCGPToolGUI(QMainWindow):
         # Hide pack key group box
         self.packKeyGB.setVisible(False)
 
+        # Initialize selected folders list
+        self.selected_rename_folders = []
+
+        # Initialize selected files list
+        self.selected_rename_file = []
+
         # Initialize Tab 1
         self.tab1 = CrawlerTab(self)
 
