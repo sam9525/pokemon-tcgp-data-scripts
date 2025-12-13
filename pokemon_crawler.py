@@ -123,7 +123,7 @@ async def crawler(exorp, set, pack_key=None, pack_name=None, pbar=None):
                     log(f"Warning: Could not parse URL format: {src}", pbar)
                     image_data.append({"Image Name": src})
 
-            update_pbar(int(total_images / 70), pbar)
+            update_pbar(70 / total_images, pbar)
 
         log(f"Total found: {len(image_data)} images.", pbar)
 

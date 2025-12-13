@@ -12,7 +12,7 @@ from messages import dry_run_log
 
 
 class RenamerWorker(QThread):
-    progress = pyqtSignal(int)
+    progress = pyqtSignal(float)
     log = pyqtSignal(str)
     finished = pyqtSignal()
     error = pyqtSignal(str)
@@ -151,9 +151,8 @@ class ImageRenamerTab:
             self.main_window.statusbar.showMessage("Excel File cleared")
 
     def update_progress(self, n):
-        self.main_window.renamerProgressBar.setValue(
-            self.main_window.renamerProgressBar.value() + n
-        )
+        self.current_progress_value += n
+        self.main_window.renamerProgressBar.setValue(int(self.current_progress_value))
 
     def update_status(self, message):
         self.main_window.statusbar.showMessage(message)
@@ -188,6 +187,7 @@ class ImageRenamerTab:
 
     def on_renamer_finished(self):
         self.main_window.startRenameBtn.setEnabled(True)
+        self.main_window.renamerProgressBar.setValue(100)
 
         if self.worker.dry_run:
             self.main_window.statusbar.showMessage("Dry run completed.")
@@ -231,6 +231,7 @@ class ImageRenamerTab:
         # Reset UI
         self.main_window.startRenameBtn.setEnabled(False)
         self.main_window.renamerProgressBar.setValue(0)
+        self.current_progress_value = 0.0
 
         # Start thread
         self.worker.start()

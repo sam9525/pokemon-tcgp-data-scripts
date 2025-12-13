@@ -76,7 +76,7 @@ def rename_images(folder_path, excel_path, dry_run=True, pbar=None):
     # Process all files in the folder
     for i, file_path in enumerate(files_to_process):
         # Update progress
-        update_pbar(int(total_files / 90), pbar)
+        update_pbar(90 / total_files, pbar)
 
         # Get the old name without extension
         old_name_stem = file_path.stem

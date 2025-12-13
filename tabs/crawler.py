@@ -6,7 +6,7 @@ from pokemon_crawler import crawler
 
 
 class CrawlerWorker(QThread):
-    progress = pyqtSignal(int)
+    progress = pyqtSignal(float)
     log = pyqtSignal(str)
     finished = pyqtSignal()
     error = pyqtSignal(str)
@@ -86,15 +86,15 @@ class CrawlerTab:
             self.selected_pack_code = combobox.itemData(current_index)
 
     def update_progress(self, n):
-        self.main_window.crawlerProgressBar.setValue(
-            self.main_window.crawlerProgressBar.value() + n
-        )
+        self.current_progress_value += n
+        self.main_window.crawlerProgressBar.setValue(int(self.current_progress_value))
 
     def log_message(self, msg):
         self.main_window.statusbar.showMessage(msg)
 
     def crawling_finished(self):
         self.main_window.startCrawlingBtn.setEnabled(True)
+        self.main_window.crawlerProgressBar.setValue(100)
         QMessageBox.information(self.main_window, "Info", "Crawling finished!")
 
     def crawling_error(self, err):
@@ -104,6 +104,7 @@ class CrawlerTab:
     def start_crawling(self):
         self.main_window.crawlerProgressBar.setMaximum(100)
         self.main_window.crawlerProgressBar.setValue(0)
+        self.current_progress_value = 0.0
         self.main_window.startCrawlingBtn.setEnabled(False)
 
         if self.main_window.expRadioBtn.isChecked():
