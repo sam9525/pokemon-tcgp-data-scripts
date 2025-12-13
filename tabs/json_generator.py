@@ -193,6 +193,7 @@ class JsonGeneratorTab:
 
     def on_json_generator_finished(self):
         self.main_window.startGenBtn.setEnabled(True)
+        self.main_window.genJsonProgressBar.setValue(100)
 
         self.main_window.statusbar.showMessage("Generating process finished.")
         QMessageBox.information(
