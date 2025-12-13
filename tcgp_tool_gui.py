@@ -13,6 +13,7 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtGui import QIcon
 from tabs.crawler import CrawlerTab
 from tabs.image_renamer import ImageRenamerTab
+from tabs.json_generator import JsonGeneratorTab
 
 
 class TCGPToolGUI(QMainWindow):
@@ -31,11 +32,20 @@ class TCGPToolGUI(QMainWindow):
         # Initialize selected files list
         self.selected_rename_file = []
 
+        # Initialize selected folders list
+        self.selected_gen_json_folder = []
+
+        # Initialize selected files list
+        self.selected_gen_json_files = []
+
         # Initialize Tab 1
         self.tab1 = CrawlerTab(self)
 
         # Initialize Tab 2
         self.tab2 = ImageRenamerTab(self)
+
+        # Initialize Tab 3
+        self.tab3 = JsonGeneratorTab(self)
 
 
 def main():

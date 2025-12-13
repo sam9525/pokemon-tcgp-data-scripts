@@ -6,6 +6,7 @@ import argparse
 import pandas as pd
 from load_match_icon import load_icons, match_icon, find_all_icons
 from check_card_top_left_color import check_top_left_color
+from messages import log, update_pbar
 
 
 weakness_map = {
@@ -112,7 +113,7 @@ def analyze_image(image_path, icons, duplicate_data, key, gold_card):
     return results
 
 
-def process_single_card(image_path, duplicate_data):
+def process_single_card(image_path, duplicate_data, pbar=None):
     # Extract ID from filename
     filename = os.path.basename(image_path)
     key = None
@@ -129,7 +130,7 @@ def process_single_card(image_path, duplicate_data):
         pass
 
     # Analyze image
-    print(f"Analyzing {image_path}...")
+    log(f"Analyzing {image_path}...", pbar)
     icons = load_icons()
     analysis = analyze_image(image_path, icons, duplicate_data, key, gold_card)
 
@@ -176,23 +177,27 @@ def process_single_card(image_path, duplicate_data):
     return key, final_result
 
 
-def generate_special_card_data(image_folder, duplicate_list):
+def generate_special_card_data(image_folder, duplicate_list, pbar=None):
     results = {}
     non_pokemon = {}
 
     # Check if path exists
     if not os.path.exists(image_folder):
-        print(f"Error: Folder {image_folder} does not exist.")
+        log(f"Error: Folder {image_folder} does not exist.", pbar)
         return results
 
     with open(duplicate_list, "r", encoding="utf-8") as f:
         duplicate_data = json.load(f)
 
+    update_pbar(5, pbar)
+
+    total_images = len(os.listdir(image_folder))
+
     # Iterate over all files in the folder
     for filename in os.listdir(image_folder):
         if filename.lower().endswith((".png", ".jpg", ".jpeg")):
             image_path = os.path.join(image_folder, filename)
-            key, data = process_single_card(image_path, duplicate_data)
+            key, data = process_single_card(image_path, duplicate_data, pbar)
             if key and data:
                 if (
                     data.get("trainer") == "trainer"
@@ -202,6 +207,8 @@ def generate_special_card_data(image_folder, duplicate_list):
                     non_pokemon[key] = data
                 else:
                     results[key] = data
+
+        update_pbar(30 / total_images, pbar)
 
     # Combine non-pokemon at the top of the results
     results = {**non_pokemon, **results}

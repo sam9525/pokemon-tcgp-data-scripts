@@ -7,9 +7,10 @@ import numpy as np
 import argparse
 from check_duplicate_cards import check_duplicate_cards
 from load_match_icon import load_icons, match_icon
+from messages import log, update_pbar
 
 
-def get_image_type(image_path, icons):
+def get_image_type(image_path, icons, pbar=None):
     """
     Get image type from image path.
     By match the specific position (top right) in the image with the icons.
@@ -41,17 +42,17 @@ def get_image_type(image_path, icons):
             return "unknown"
 
     except Exception as e:
-        print(f"Error processing {image_path}: {e}")
+        log(f"Error processing {image_path}: {e}", pbar)
         return "unknown"
 
 
-def generate_json(folder_path, excel_paths):
+def generate_json(folder_path, excel_paths, pbar=None):
     """
     Generate card JSON.
     Args:
         folder_path (str): Path to folder.
         excel_paths (list): List of Excel file paths.
-        output_path (str): Output file path.
+        pbar (QProgressBar): Progress bar.
     """
 
     # Load Excel files, and use files name as pack name
@@ -64,11 +65,11 @@ def generate_json(folder_path, excel_paths):
             pack_name = os.path.splitext(filename)[0]
         EXCEL_FILES[pack_name] = path
 
-    print("Loading icons...")
+    log("Loading icons...", pbar)
     icons = load_icons()
-    print(f"Loaded {len(icons)} icons.")
+    log(f"Loaded {len(icons)} icons.", pbar)
 
-    print("Loading Excel files...")
+    log("Loading Excel files...", pbar)
     pack_data = {}
     for pack_name, path in EXCEL_FILES.items():
         try:
@@ -85,12 +86,14 @@ def generate_json(folder_path, excel_paths):
                 except Exception:
                     continue
             pack_data[pack_name] = ids
-            print(f"Loaded {len(pack_data[pack_name])} items for {pack_name}")
+            log(f"Loaded {len(pack_data[pack_name])} items for {pack_name}", pbar)
         except Exception as e:
-            print(f"Error loading {path}: {e}")
+            log(f"Error loading {path}: {e}", pbar)
             return
 
-    print("Scanning images...")
+    log("Scanning images...", pbar)
+    update_pbar(5, pbar)
+
     image_files = glob.glob(os.path.join(folder_path, "*.png"))
 
     # Create result array with pack name as key
@@ -114,6 +117,9 @@ def generate_json(folder_path, excel_paths):
             result[p][t] = []
 
     count = 0
+
+    total_images = len(image_files)
+
     for img_path in image_files:
         filename = os.path.basename(img_path)
 
@@ -122,7 +128,7 @@ def generate_json(folder_path, excel_paths):
             parts = filename.split("_")
             card_id = parts[2]
         except IndexError:
-            print(f"Skipping malformed filename: {filename}")
+            log(f"Skipping malformed filename: {filename}", pbar)
             continue
 
         # Match to pack
@@ -146,11 +152,13 @@ def generate_json(folder_path, excel_paths):
 
                 count += 1
                 if count % 10 == 0:
-                    print(f"Processed {count} cards...", end="\r")
+                    log(f"Processed {count} cards...", pbar)
             else:
                 pass
 
-    print(f"\nProcessing complete. Processed {count} cards.")
+        update_pbar(25 / total_images, pbar)
+
+    log(f"\nProcessing complete. Processed {count} cards.", pbar)
 
     # Sort lists
     for p in result:
