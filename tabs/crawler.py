@@ -1,15 +1,15 @@
 import asyncio
-from PyQt6 import QtCore
+from PyQt6.QtCore import QThread, pyqtSignal
 from PyQt6.QtWidgets import QMessageBox
 from constant import expansion_code, pack_key
 from pokemon_crawler import crawler
 
 
-class CrawlerWorker(QtCore.QThread):
-    progress = QtCore.pyqtSignal(int)
-    log = QtCore.pyqtSignal(str)
-    finished = QtCore.pyqtSignal()
-    error = QtCore.pyqtSignal(str)
+class CrawlerWorker(QThread):
+    progress = pyqtSignal(int)
+    log = pyqtSignal(str)
+    finished = pyqtSignal()
+    error = pyqtSignal(str)
 
     def __init__(self, exorp, set_code, pack_code=None, pack_name=None):
         super().__init__()
@@ -25,9 +25,6 @@ class CrawlerWorker(QtCore.QThread):
 
             def update(self, n=1):
                 self.worker.progress.emit(n)
-
-            def set_description(self, desc):
-                self.worker.log.emit(desc)
 
             def write(self, msg):
                 self.worker.log.emit(msg)
