@@ -5,9 +5,9 @@ import json
 import cv2
 import numpy as np
 import argparse
-from check_duplicate_cards import check_duplicate_cards
-from load_match_icon import load_icons, match_icon
-from messages import log, update_pbar
+from src.services import check_duplicate_cards
+from src.services import load_icons, match_icon
+from src.utils import log, update_pbar
 
 
 def get_image_type(image_path, icons, pbar=None):

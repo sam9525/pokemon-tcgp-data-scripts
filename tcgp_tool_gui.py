@@ -11,9 +11,7 @@ from PyQt6.QtWidgets import (
     QMessageBox,
 )
 from PyQt6.QtGui import QIcon
-from tabs.crawler import CrawlerTab
-from tabs.image_renamer import ImageRenamerTab
-from tabs.json_generator import JsonGeneratorTab
+from src.gui.tabs import CrawlerTab, ImageRenamerTab, JsonGeneratorTab
 
 
 class TCGPToolGUI(QMainWindow):
@@ -21,7 +19,7 @@ class TCGPToolGUI(QMainWindow):
         super().__init__()
 
         # Load the UI file
-        uic.loadUi("gui.ui", self)
+        uic.loadUi("src\gui\gui.ui", self)
 
         # Hide pack key group box
         self.packKeyGB.setVisible(False)

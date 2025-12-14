@@ -3,7 +3,7 @@ from playwright.async_api import async_playwright
 import pandas as pd
 import os
 import argparse
-from messages import log, update_pbar
+from src.utils import log, update_pbar
 
 
 async def crawler(exorp, set, pack_key=None, pack_name=None, pbar=None):
@@ -72,7 +72,6 @@ async def crawler(exorp, set, pack_key=None, pack_name=None, pbar=None):
         while scroll_attempts < max_scroll_attempts:
             msg = f"Scrolling... (Attempt {scroll_attempts + 1})"
             log(msg, pbar)
-            update_pbar(5, pbar)
 
             await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
             await page.wait_for_timeout(3000)  # Wait for load
@@ -93,7 +92,8 @@ async def crawler(exorp, set, pack_key=None, pack_name=None, pbar=None):
             current_count = await page.locator("div.card-grid__cell").count()
 
             log(f"Current card count: {current_count}", pbar)
-            update_pbar(5, pbar)
+
+        update_pbar(20, pbar)
 
         log("Finished scrolling. Extracting images...", pbar)
 
@@ -123,7 +123,7 @@ async def crawler(exorp, set, pack_key=None, pack_name=None, pbar=None):
                     log(f"Warning: Could not parse URL format: {src}", pbar)
                     image_data.append({"Image Name": src})
 
-            update_pbar(70 / total_images, pbar)
+            update_pbar(60 / total_images, pbar)
 
         log(f"Total found: {len(image_data)} images.", pbar)
 

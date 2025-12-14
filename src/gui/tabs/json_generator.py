@@ -2,16 +2,15 @@ from PyQt6.QtCore import QThread, pyqtSignal
 from PyQt6.QtWidgets import QMessageBox, QDialog, QVBoxLayout, QTextEdit, QPushButton
 import os
 import json
-from constant import expansion_code
-from folder_file_selection import (
+from src.config import expansion_code
+from src.services import (
+    check_duplicate_cards,
     select_paths,
     update_display,
     remove_selected_paths,
     clear_paths,
 )
-from generate_card_json import generate_json
-from check_duplicate_cards import check_duplicate_cards
-from generate_special_card_json import generate_special_card_data
+from scripts import generate_json, generate_special_card_data
 
 
 class JsonGeneratorWorker(QThread):

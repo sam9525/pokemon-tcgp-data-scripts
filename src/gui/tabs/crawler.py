@@ -1,8 +1,8 @@
 import asyncio
 from PyQt6.QtCore import QThread, pyqtSignal
 from PyQt6.QtWidgets import QMessageBox
-from constant import expansion_code, pack_key
-from pokemon_crawler import crawler
+from src.config import expansion_code, pack_key
+from scripts import crawler
 
 
 class CrawlerWorker(QThread):

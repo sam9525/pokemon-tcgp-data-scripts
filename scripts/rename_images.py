@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import argparse
 from pathlib import Path
-from messages import log, dry_run_log, update_pbar
+from src.utils import log, dry_run_log, update_pbar
 
 
 def rename_images(folder_path, excel_path, dry_run=True, pbar=None):

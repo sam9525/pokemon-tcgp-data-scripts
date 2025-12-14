@@ -1,14 +1,14 @@
 from PyQt6.QtCore import QObject, QThread, pyqtSignal
 from PyQt6.QtWidgets import QMessageBox, QDialog, QVBoxLayout, QTextEdit, QPushButton
-from folder_file_selection import (
+from src.services import (
     select_paths,
     update_display,
     remove_selected_paths,
     clear_paths,
 )
 
-from rename_images import rename_images
-from messages import dry_run_log
+from scripts import rename_images
+from src.utils import dry_run_log
 
 
 class RenamerWorker(QThread):

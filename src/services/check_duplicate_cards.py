@@ -1,6 +1,6 @@
 import json
 import os
-from messages import log, update_pbar
+from src.utils import log, update_pbar
 
 
 def check_duplicate_cards(input_file, pbar=None):
