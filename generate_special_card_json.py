@@ -113,7 +113,7 @@ def analyze_image(image_path, icons, duplicate_data, key, gold_card):
     return results
 
 
-def process_single_card(image_path, duplicate_data, pbar=None):
+def process_single_card(image_path, duplicate_data, icons, pbar=None):
     # Extract ID from filename
     filename = os.path.basename(image_path)
     key = None
@@ -131,7 +131,7 @@ def process_single_card(image_path, duplicate_data, pbar=None):
 
     # Analyze image
     log(f"Analyzing {image_path}...", pbar)
-    icons = load_icons()
+
     analysis = analyze_image(image_path, icons, duplicate_data, key, gold_card)
 
     if analysis and (
@@ -189,6 +189,9 @@ def generate_special_card_data(image_folder, duplicate_list, pbar=None):
     with open(duplicate_list, "r", encoding="utf-8") as f:
         duplicate_data = json.load(f)
 
+    # Load icons
+    icons = load_icons()
+
     update_pbar(5, pbar)
 
     total_images = len(os.listdir(image_folder))
@@ -197,7 +200,7 @@ def generate_special_card_data(image_folder, duplicate_list, pbar=None):
     for filename in os.listdir(image_folder):
         if filename.lower().endswith((".png", ".jpg", ".jpeg")):
             image_path = os.path.join(image_folder, filename)
-            key, data = process_single_card(image_path, duplicate_data, pbar)
+            key, data = process_single_card(image_path, duplicate_data, icons, pbar)
             if key and data:
                 if (
                     data.get("trainer") == "trainer"
