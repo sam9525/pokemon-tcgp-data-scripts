@@ -3,10 +3,11 @@ import numpy as np
 import os
 import json
 import argparse
-import pandas as pd
 from src.services import load_icons, match_icon, find_all_icons, check_top_left_color
 from src.utils import log, update_pbar
 from src.config import weakness_map
+from multiprocessing import Pool
+from functools import partial
 
 
 def analyze_image(image_path, icons, duplicate_data, key, gold_card):
@@ -116,8 +117,6 @@ def process_single_card(image_path, duplicate_data, icons, pbar=None):
         pass
 
     # Analyze image
-    log(f"Analyzing {image_path}...", pbar)
-
     analysis = analyze_image(image_path, icons, duplicate_data, key, gold_card)
 
     if analysis and (
@@ -182,22 +181,38 @@ def generate_special_card_data(image_folder, duplicate_list, pbar=None):
 
     total_images = len(os.listdir(image_folder))
 
-    # Iterate over all files in the folder
+    task_paths = []
     for filename in os.listdir(image_folder):
         if filename.lower().endswith((".png", ".jpg", ".jpeg")):
             image_path = os.path.join(image_folder, filename)
-            key, data = process_single_card(image_path, duplicate_data, icons, pbar)
-            if key and data:
-                if (
-                    data.get("trainer") == "trainer"
-                    or data.get("trainer") == "pokemon tool"
-                    or data.get("trainer") == "tool"
-                ):
-                    non_pokemon[key] = data
-                else:
-                    results[key] = data
+            task_paths.append(image_path)
 
-        update_pbar(30 / total_images, pbar)
+    # Using half of the cpu processes
+    half_processes = os.cpu_count() // 2
+
+    process_fun = partial(
+        process_single_card,
+        duplicate_data=duplicate_data,
+        icons=icons,
+    )
+
+    with Pool(processes=half_processes) as pool:
+        results_list = []
+        for result in pool.imap(process_fun, task_paths):
+            results_list.append(result)
+            update_pbar(30 / total_images, pbar)
+
+    # Aggregate results
+    for key, data in results_list:
+        if key and data:
+            if (
+                data.get("trainer") == "trainer"
+                or data.get("trainer") == "pokemon tool"
+                or data.get("trainer") == "tool"
+            ):
+                non_pokemon[key] = data
+            else:
+                results[key] = data
 
     # Combine non-pokemon at the top of the results
     results = {**non_pokemon, **results}
