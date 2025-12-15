@@ -1,5 +1,4 @@
 from .constant import (
-    SUPPORTED_IMAGE_FORMATS,
     SUPPORTED_EXCEL_FORMATS,
     EXPANSIONS,
     PACK_KEYS,
@@ -8,7 +7,6 @@ from .constant import (
 )
 
 __all__ = [
-    "SUPPORTED_IMAGE_FORMATS",
     "SUPPORTED_EXCEL_FORMATS",
     "expansion_code",
     "pack_key",

@@ -5,9 +5,10 @@ import json
 import argparse
 from src.services import load_icons, match_icon, find_all_icons, check_top_left_color
 from src.utils import log, update_pbar
-from src.config import SUPPORTED_IMAGE_FORMATS, WEAKNESS_MAP, CARD_REGIONS
+from src.config import WEAKNESS_MAP, CARD_REGIONS
 from multiprocessing import Pool
 from functools import partial
+from src.utils import safe_load_json, safe_dump_json
 
 
 def analyze_image(image_path, icons, duplicate_data, key, gold_card):
@@ -171,8 +172,7 @@ def generate_special_card_data(image_folder, duplicate_list, pbar=None):
         log(f"Error: Folder {image_folder} does not exist.", pbar)
         return results
 
-    with open(duplicate_list, "r", encoding="utf-8") as f:
-        duplicate_data = json.load(f)
+    duplicate_data = safe_load_json(duplicate_list)
 
     # Load icons
     icons = load_icons()
@@ -183,7 +183,7 @@ def generate_special_card_data(image_folder, duplicate_list, pbar=None):
 
     task_paths = []
     for filename in os.listdir(image_folder):
-        if filename.lower().endswith(SUPPORTED_IMAGE_FORMATS):
+        if filename.lower().endswith(".png", ".jpg", ".jpeg"):
             image_path = os.path.join(image_folder, filename)
             task_paths.append(image_path)
 
@@ -241,8 +241,7 @@ def main():
         os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 
         # Write JSON
-        with open(OUTPUT_FILE, "w") as f:
-            json.dump(final_results, f, indent=2)
+        safe_dump_json(final_results, OUTPUT_FILE)
 
 
 if __name__ == "__main__":

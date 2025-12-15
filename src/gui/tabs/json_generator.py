@@ -1,7 +1,7 @@
 from PyQt6.QtCore import QThread, pyqtSignal
 from PyQt6.QtWidgets import QMessageBox, QDialog, QVBoxLayout, QTextEdit, QPushButton
 import os
-import json
+from src.utils import safe_dump_json
 from src.config import SUPPORTED_EXCEL_FORMATS, EXPANSIONS
 from src.services import (
     check_duplicate_cards,
@@ -48,16 +48,14 @@ class JsonGeneratorWorker(QThread):
 
             self.log.emit(f"Writing to {self.OUTPUT_FILE}...")
             os.makedirs(os.path.dirname(self.OUTPUT_FILE), exist_ok=True)
-            with open(self.OUTPUT_FILE, "w", encoding="utf-8") as f:
-                json.dump(result, f, indent=2)
+            safe_dump_json(result, self.OUTPUT_FILE)
 
             # Check duplicates
             self.log.emit("Generating duplicate json file...")
             duplicate_list = check_duplicate_cards(self.OUTPUT_FILE, pbar=pbar)
 
             # Output the duplicate result
-            with open(self.DUPLICATE_FILE, "w", encoding="utf-8") as f:
-                json.dump(duplicate_list, f, indent=2)
+            safe_dump_json(duplicate_list, self.DUPLICATE_FILE)
 
             self.log.emit("Completed generating duplicate json file.")
 
@@ -68,8 +66,7 @@ class JsonGeneratorWorker(QThread):
             )
 
             self.log.emit(f"Writing to {self.SPECIAL_FILE}...")
-            with open(self.SPECIAL_FILE, "w", encoding="utf-8") as f:
-                json.dump(special_results, f, indent=2)
+            safe_dump_json(special_results, self.SPECIAL_FILE)
 
             self.log.emit("Completed generating special card data.")
             self.finished.emit()

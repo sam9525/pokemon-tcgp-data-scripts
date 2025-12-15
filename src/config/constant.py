@@ -1,4 +1,3 @@
-SUPPORTED_IMAGE_FORMATS = {".png", ".jpg", ".jpeg"}
 SUPPORTED_EXCEL_FORMATS = {"*.xlsx", "*.xls"}
 
 EXPANSIONS = [

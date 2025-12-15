@@ -11,6 +11,7 @@ from src.utils import log, update_pbar
 from multiprocessing import Pool
 from functools import partial
 from src.config import CARD_REGIONS
+from src.utils import safe_dump_json
 
 
 def get_image_type(image_path, icons, pbar=None):
@@ -202,8 +203,7 @@ def main():
 
     print(f"Writing to {OUTPUT_FILE}...")
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        json.dump(final_result, f, indent=2)
+    safe_dump_json(final_result, OUTPUT_FILE)
 
     # Check duplicates
     print("Generating json file for duplicates...")
@@ -214,8 +214,7 @@ def main():
     file_name = os.path.splitext(file_name)[0]
 
     # Output the result
-    with open(f"json/{file_name}_duplicates.json", "w", encoding="utf-8") as f:
-        json.dump(duplicate_list, f, indent=2)
+    safe_dump_json(duplicate_list, f"json/{file_name}_duplicates.json")
 
     print("Done.")
 
