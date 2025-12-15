@@ -21,6 +21,10 @@ class TCGPToolGUI(QMainWindow):
         # Load the UI file
         uic.loadUi("src\gui\gui.ui", self)
 
+        # Default expansion
+        self.selected_exp_name = "A1_genetic-apex"
+        self.selected_exp_code = "A1"
+
         # Hide pack key group box
         self.packKeyGB.setVisible(False)
 

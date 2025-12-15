@@ -59,8 +59,6 @@ class CrawlerWorker(QThread):
 class CrawlerTab:
     def __init__(self, main_window):
         self.main_window = main_window
-        self.selected_exp_name = "A1_genetic-apex"
-        self.selected_exp_code = "A1"
         self.selected_pack_name = "Charizard"
         self.selected_pack_code = "AN001_0020_00_000"
         self.setup_ui()
@@ -69,6 +67,11 @@ class CrawlerTab:
         # Init Expansion code
         for item in EXPANSIONS:
             self.main_window.expComboB.addItem(item["name"], item["code"])
+
+        # Set default expansion
+        self.main_window.expComboB.setCurrentIndex(
+            self.main_window.expComboB.findData(self.main_window.selected_exp_code)
+        )
 
         self.main_window.expComboB.currentIndexChanged.connect(self.on_combobox_changed)
 
@@ -88,8 +91,15 @@ class CrawlerTab:
         current_index = combobox.currentIndex()
 
         if combobox == self.main_window.expComboB:
-            self.selected_exp_name = combobox.currentText()
-            self.selected_exp_code = combobox.itemData(current_index)
+            self.main_window.selected_exp_name = combobox.currentText()
+            self.main_window.selected_exp_code = combobox.itemData(current_index)
+
+            # Change the expansion combobox in json generator tab
+            self.main_window.expansionComboBox.setCurrentIndex(
+                self.main_window.expansionComboBox.findData(
+                    self.main_window.selected_exp_code
+                )
+            )
         elif combobox == self.main_window.packKeyComboB:
             self.selected_pack_name = combobox.currentText()
             self.selected_pack_code = combobox.itemData(current_index)
@@ -119,18 +129,26 @@ class CrawlerTab:
         if self.main_window.expRadioBtn.isChecked():
             # Check if the set code excel file exist
             files_exist = check_file_exist(
-                self.main_window, self.selected_exp_code, "excel"
+                self.main_window, self.main_window.selected_exp_code, "excel"
             )
             if not files_exist:
                 self.main_window.startCrawlingBtn.setEnabled(True)
                 return
 
-            self.worker = CrawlerWorker("e", self.selected_exp_code)
+            self.worker = CrawlerWorker("e", self.main_window.selected_exp_code)
+
+            # Add the excel file path to the renamer tab
+            self.main_window.fileLineEdit.setText(
+                f"lists/{self.main_window.selected_exp_code}.xlsx"
+            )
+            self.main_window.selected_rename_file.append(
+                f"lists/{self.main_window.selected_exp_code}.xlsx"
+            )
         elif self.main_window.packRadioBtn.isChecked():
             # Check if the set code excel file exist
             files_exist = check_file_exist(
                 self.main_window,
-                self.selected_exp_code + "_" + self.selected_pack_name,
+                self.main_window.selected_exp_code + "_" + self.selected_pack_name,
                 "excel",
             )
             if not files_exist:
@@ -139,7 +157,7 @@ class CrawlerTab:
 
             self.worker = CrawlerWorker(
                 "p",
-                self.selected_exp_code,
+                self.main_window.selected_exp_code,
                 self.selected_pack_code,
                 self.selected_pack_name,
             )

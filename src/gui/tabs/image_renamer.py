@@ -234,5 +234,10 @@ class ImageRenamerTab:
         self.main_window.renamerProgressBar.setValue(0)
         self.current_progress_value = 0.0
 
+        # Set the first folder path to the folder line in json generator tab
+        self.main_window.folderLineEditInTab3.setText(
+            self.main_window.selected_rename_folders[0]
+        )
+
         # Start thread
         self.worker.start()

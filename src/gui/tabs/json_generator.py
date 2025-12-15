@@ -78,14 +78,19 @@ class JsonGeneratorWorker(QThread):
 class JsonGeneratorTab:
     def __init__(self, main_window):
         self.main_window = main_window
-        self.selected_exp_name = "A1_genetic-apex"
-        self.selected_exp_code = "A1"
         self.setup_ui()
 
     def setup_ui(self):
         # Init Expansion code
         for item in EXPANSIONS:
             self.main_window.expansionComboBox.addItem(item["name"], item["code"])
+
+        # Set default expansion
+        self.main_window.expansionComboBox.setCurrentIndex(
+            self.main_window.expansionComboBox.findData(
+                self.main_window.selected_exp_code
+            )
+        )
 
         self.main_window.expansionComboBox.currentIndexChanged.connect(
             self.on_exp_combobox_changed
@@ -111,8 +116,13 @@ class JsonGeneratorTab:
         combobox = self.main_window.sender()
         currentIndex = combobox.currentIndex()
 
-        self.selected_exp_name = combobox.currentText()
-        self.selected_exp_code = combobox.itemData(currentIndex)
+        self.main_window.selected_exp_name = combobox.currentText()
+        self.main_window.selected_exp_code = combobox.itemData(currentIndex)
+
+        # Change the expansion combobox in crawler tab
+        self.main_window.expComboB.setCurrentIndex(
+            self.main_window.expComboB.findData(self.main_window.selected_exp_code)
+        )
 
     def select_folder_handler(self):
         if select_paths(
@@ -204,7 +214,7 @@ class JsonGeneratorTab:
     def run_gen_json(self):
         # Worker setup
         self.worker = JsonGeneratorWorker(
-            self.selected_exp_code,
+            self.main_window.selected_exp_code,
             self.main_window.selected_gen_json_folder,
             self.main_window.selected_gen_json_files,
         )
@@ -222,7 +232,7 @@ class JsonGeneratorTab:
 
         # Check if the set code excel file exist
         files_exist = check_file_exist(
-            self.main_window, self.selected_exp_code, mode="json"
+            self.main_window, self.main_window.selected_exp_code, mode="json"
         )
         if not files_exist:
             self.main_window.startGenBtn.setEnabled(True)
