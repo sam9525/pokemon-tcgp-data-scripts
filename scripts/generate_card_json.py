@@ -8,6 +8,8 @@ import argparse
 from src.services import check_duplicate_cards
 from src.services import load_icons, match_icon
 from src.utils import log, update_pbar
+from multiprocessing import Pool
+from functools import partial
 
 
 def get_image_type(image_path, icons, pbar=None):
@@ -114,56 +116,63 @@ def generate_json(folder_path, excel_paths, pbar=None):
     ]
     for p in result:
         for t in types:
-            result[p][t] = []
+            result[p][t] = set()
+
+    # Create reversed map for faster lookup in O(1)
+    card_to_packs = {}
+    for pack_name, ids in pack_data.items():
+        for card_id in ids:
+            if card_id not in card_to_packs:
+                card_to_packs[card_id] = []
+            card_to_packs[card_id].append(pack_name)
 
     count = 0
 
-    total_images = len(image_files)
-
+    # Prepare tasks
+    task_paths = []
+    task_metadata = []
     for img_path in image_files:
         filename = os.path.basename(img_path)
-
-        # Extract ID: PK_10_005820_00.png -> 005820
         try:
             parts = filename.split("_")
             card_id = parts[2]
+            matched_packs = card_to_packs.get(card_id)
+            if matched_packs:
+                task_paths.append(img_path)
+                task_metadata.append((matched_packs, card_id))
         except IndexError:
-            log(f"Skipping malformed filename: {filename}", pbar)
             continue
 
-        # Match to pack
-        clean_name = os.path.splitext(filename)[0]
+    total_images = len(task_paths)
+    log(f"Found {total_images} valid cards to process.", pbar)
 
-        # Loop through each pack
-        for pack_name in EXCEL_FILES.keys():
-            pack = None
-            # Match by ID
-            if card_id in pack_data[pack_name]:
-                pack = pack_name
+    process_func = partial(get_image_type, icons=icons)
 
-            if pack:
-                # Get image type
-                card_type = get_image_type(img_path, icons)
-                if card_type in result[pack]:
-                    # If card_id is not exist in the same pack
-                    # Add card ID to type list
-                    if card_id not in result[pack][card_type]:
-                        result[pack][card_type].append(card_id)
+    # Process images in parallel
+    with Pool(processes=8) as pool:
+        results_list = list(pool.imap(process_func, task_paths))
 
+    update_pbar(15, pbar)
+
+    # Aggregate results
+    count = 0
+    for (matched_packs, card_id), card_type in zip(task_metadata, results_list):
+        update_pbar(10 / len(results_list), pbar)
+
+        if card_type == "unknown":
+            continue
+
+        for pack_name in matched_packs:
+            if card_type in result[pack_name]:
+                result[pack_name][card_type].add(card_id)
                 count += 1
-                if count % 10 == 0:
-                    log(f"Processed {count} cards...", pbar)
-            else:
-                pass
-
-        update_pbar(25 / total_images, pbar)
 
     log(f"\nProcessing complete. Processed {count} cards.", pbar)
 
     # Sort lists
     for p in result:
         for t in result[p]:
-            result[p][t].sort()
+            result[p][t] = sorted(list(result[p][t]))
 
     # Remove empty types
     final_result = {}

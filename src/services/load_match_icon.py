@@ -9,8 +9,9 @@ def load_icons():
     Load icons from type-icons folder.
     """
     icons = {}
+    ICONS_DIRECTORY = "../../type-icons"
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    for icon_path in glob.glob(os.path.join(base_dir, "type-icons", "*.png")):
+    for icon_path in glob.glob(os.path.join(base_dir, ICONS_DIRECTORY, "*.png")):
         name = os.path.splitext(os.path.basename(icon_path))[0]
         img = cv2.imdecode(np.fromfile(icon_path, dtype=np.uint8), cv2.IMREAD_COLOR)
         if img is not None:
