@@ -33,3 +33,16 @@ pack_key = [
     {"name": "Mega Blaziken", "code": "BN001_0010_00_000"},
     {"name": "Mega Gyarados", "code": "BN001_0020_00_000"},
 ]
+
+weakness_map = {
+    "grass": "fire",
+    "fire": "water",
+    "water": "lightning",
+    "lightning": "fighting",
+    "psychic": "darkness",
+    "fighting": "grass",
+    "darkness": "fighting",
+    "metal": "fire",
+    "colorless": "fighting",
+    "dragon": "none",
+}

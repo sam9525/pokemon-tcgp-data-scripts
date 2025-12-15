@@ -6,20 +6,7 @@ import argparse
 import pandas as pd
 from src.services import load_icons, match_icon, find_all_icons, check_top_left_color
 from src.utils import log, update_pbar
-
-
-weakness_map = {
-    "grass": "fire",
-    "fire": "water",
-    "water": "lightning",
-    "lightning": "fighting",
-    "psychic": "darkness",
-    "fighting": "grass",
-    "darkness": "fighting",
-    "metal": "fire",
-    "colorless": "fighting",
-    "dragon": "none",
-}
+from src.config import weakness_map
 
 
 def analyze_image(image_path, icons, duplicate_data, key, gold_card):
