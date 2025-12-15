@@ -1,4 +1,7 @@
-expansion_code = [
+SUPPORTED_IMAGE_FORMATS = {".png", ".jpg", ".jpeg"}
+SUPPORTED_EXCEL_FORMATS = {"*.xlsx", "*.xls"}
+
+EXPANSIONS = [
     {"name": "A1_genetic-apex", "code": "A1"},
     {"name": "A1a_mythical-island", "code": "A1a"},
     {"name": "A2_space-time-smackdown", "code": "A2"},
@@ -12,7 +15,7 @@ expansion_code = [
     {"name": "B1_mega-brave", "code": "B1"},
 ]
 
-pack_key = [
+PACK_KEYS = [
     {"name": "Charizard", "code": "AN001_0020_00_000"},
     {"name": "Mewtwo", "code": "AN001_0010_00_000"},
     {"name": "Pikachu", "code": "AN001_0030_00_000"},
@@ -34,7 +37,7 @@ pack_key = [
     {"name": "Mega Gyarados", "code": "BN001_0020_00_000"},
 ]
 
-weakness_map = {
+WEAKNESS_MAP = {
     "grass": "fire",
     "fire": "water",
     "water": "lightning",
@@ -45,4 +48,10 @@ weakness_map = {
     "metal": "fire",
     "colorless": "fighting",
     "dragon": "none",
+}
+
+CARD_REGIONS = {
+    "type": {"top": 0.03, "bottom": 0.09, "left": 0.88, "right": 0.95},
+    "weakness": {"top": 0.86, "bottom": 0.89, "left": 0.28, "right": 0.33},
+    "attack": {"top": 0.55, "bottom": 0.80, "left": 0.05, "right": 0.30},
 }

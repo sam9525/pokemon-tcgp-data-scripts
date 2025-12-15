@@ -5,7 +5,7 @@ import json
 import argparse
 from src.services import load_icons, match_icon, find_all_icons, check_top_left_color
 from src.utils import log, update_pbar
-from src.config import weakness_map
+from src.config import SUPPORTED_IMAGE_FORMATS, WEAKNESS_MAP, CARD_REGIONS
 from multiprocessing import Pool
 from functools import partial
 
@@ -21,10 +21,10 @@ def analyze_image(image_path, icons, duplicate_data, key, gold_card):
 
     # 1. Card Type (Top Right)
     # Top 3-9%, Left 88-95%
-    top_type = int(height * 0.03)
-    bottom_type = int(height * 0.09)
-    left_type = int(width * 0.88)
-    right_type = int(width * 0.95)
+    top_type = int(height * CARD_REGIONS["type"]["top"])
+    bottom_type = int(height * CARD_REGIONS["type"]["bottom"])
+    left_type = int(width * CARD_REGIONS["type"]["left"])
+    right_type = int(width * CARD_REGIONS["type"]["right"])
     crop_type = img[top_type:bottom_type, left_type:right_type]
 
     card_type = match_icon(crop_type, icons)
@@ -44,10 +44,10 @@ def analyze_image(image_path, icons, duplicate_data, key, gold_card):
 
     # 2. Weakness (Bottom Left)
     # Bottom 86-89%, Left 28-33%
-    top_weak = int(height * 0.86)
-    bottom_weak = int(height * 0.89)
-    left_weak = int(width * 0.28)
-    right_weak = int(width * 0.33)
+    top_weak = int(height * CARD_REGIONS["weakness"]["top"])
+    bottom_weak = int(height * CARD_REGIONS["weakness"]["bottom"])
+    left_weak = int(width * CARD_REGIONS["weakness"]["left"])
+    right_weak = int(width * CARD_REGIONS["weakness"]["right"])
     crop_weak = img[top_weak:bottom_weak, left_weak:right_weak].copy()
 
     # Remove white background
@@ -68,15 +68,15 @@ def analyze_image(image_path, icons, duplicate_data, key, gold_card):
 
     if card_type == "dragon":
         results["weakness"] = "none"
-    elif weakness_type != weakness_map[card_type]:
+    elif weakness_type != WEAKNESS_MAP[card_type]:
         results["weakness"] = weakness_type
 
     # 3. Fight Energy / Attack Cost (Middle Left)
     # Bottom 55-80%, Left 5-30%
-    top_atk = int(height * 0.55)
-    bottom_atk = int(height * 0.80)
-    left_atk = int(width * 0.05)
-    right_atk = int(width * 0.30)
+    top_atk = int(height * CARD_REGIONS["attack"]["top"])
+    bottom_atk = int(height * CARD_REGIONS["attack"]["bottom"])
+    left_atk = int(width * CARD_REGIONS["attack"]["left"])
+    right_atk = int(width * CARD_REGIONS["attack"]["right"])
     crop_atk = img[top_atk:bottom_atk, left_atk:right_atk]
 
     # Find ALL icons (e.g. fighting, colorless)
@@ -183,7 +183,7 @@ def generate_special_card_data(image_folder, duplicate_list, pbar=None):
 
     task_paths = []
     for filename in os.listdir(image_folder):
-        if filename.lower().endswith((".png", ".jpg", ".jpeg")):
+        if filename.lower().endswith(SUPPORTED_IMAGE_FORMATS):
             image_path = os.path.join(image_folder, filename)
             task_paths.append(image_path)
 

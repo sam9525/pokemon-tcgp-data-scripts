@@ -9,6 +9,7 @@ from src.services import (
 
 from scripts import rename_images
 from src.utils import dry_run_log
+from src.config import SUPPORTED_EXCEL_FORMATS
 
 
 class RenamerWorker(QThread):
@@ -128,7 +129,7 @@ class ImageRenamerTab:
             self.main_window.selected_rename_file,
             mode="file",
             multi=False,
-            file_filter="Excel Files (*.xlsx *.xls);;All Files (*)",
+            file_filter=f"Excel Files ({';'.join(SUPPORTED_EXCEL_FORMATS)});;All Files (*)",
         )
 
         update_display(

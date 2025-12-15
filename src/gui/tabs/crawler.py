@@ -1,7 +1,7 @@
 import asyncio
 from PyQt6.QtCore import QThread, pyqtSignal
 from PyQt6.QtWidgets import QMessageBox
-from src.config import expansion_code, pack_key
+from src.config import EXPANSIONS, PACK_KEYS
 from scripts import crawler
 
 
@@ -58,13 +58,13 @@ class CrawlerTab:
 
     def setup_ui(self):
         # Init Expansion code
-        for item in expansion_code:
+        for item in EXPANSIONS:
             self.main_window.expComboB.addItem(item["name"], item["code"])
 
         self.main_window.expComboB.currentIndexChanged.connect(self.on_combobox_changed)
 
         # Init pack key combo box
-        for item in pack_key:
+        for item in PACK_KEYS:
             self.main_window.packKeyComboB.addItem(item["name"], item["code"])
 
         self.main_window.packKeyComboB.currentIndexChanged.connect(

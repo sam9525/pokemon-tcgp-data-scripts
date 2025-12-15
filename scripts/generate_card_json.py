@@ -10,6 +10,7 @@ from src.services import load_icons, match_icon
 from src.utils import log, update_pbar
 from multiprocessing import Pool
 from functools import partial
+from src.config import CARD_REGIONS
 
 
 def get_image_type(image_path, icons, pbar=None):
@@ -29,10 +30,10 @@ def get_image_type(image_path, icons, pbar=None):
         height, width = img.shape[:2]
 
         # Crop top right
-        left = int(width * 0.88)
-        top = int(height * 0.03)
-        right = int(width * 0.95)
-        bottom = int(height * 0.09)
+        left = int(width * CARD_REGIONS["type"]["left"])
+        top = int(height * CARD_REGIONS["type"]["top"])
+        right = int(width * CARD_REGIONS["type"]["right"])
+        bottom = int(height * CARD_REGIONS["type"]["bottom"])
 
         crop = img[top:bottom, left:right]
 

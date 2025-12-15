@@ -2,7 +2,7 @@ from PyQt6.QtCore import QThread, pyqtSignal
 from PyQt6.QtWidgets import QMessageBox, QDialog, QVBoxLayout, QTextEdit, QPushButton
 import os
 import json
-from src.config import expansion_code
+from src.config import SUPPORTED_EXCEL_FORMATS, EXPANSIONS
 from src.services import (
     check_duplicate_cards,
     select_paths,
@@ -86,7 +86,7 @@ class JsonGeneratorTab:
 
     def setup_ui(self):
         # Init Expansion code
-        for item in expansion_code:
+        for item in EXPANSIONS:
             self.main_window.expansionComboBox.addItem(item["name"], item["code"])
 
         self.main_window.expansionComboBox.currentIndexChanged.connect(
@@ -146,7 +146,7 @@ class JsonGeneratorTab:
             self.main_window.selected_gen_json_files,
             mode="file",
             multi=True,
-            file_filter="Excel Files (*.xlsx *.xls);;All Files (*)",
+            file_filter=f"Excel Files ({';'.join(SUPPORTED_EXCEL_FORMATS)});;All Files (*)",
         )
         update_display(
             list_widget=self.main_window.excelListWidget,
