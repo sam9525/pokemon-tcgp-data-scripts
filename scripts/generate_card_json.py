@@ -148,8 +148,11 @@ def generate_json(folder_path, excel_paths, pbar=None):
 
     process_func = partial(get_image_type, icons=icons)
 
+    # Using half of the cpu processes
+    half_processes = os.cpu_count() // 2
+
     # Process images in parallel
-    with Pool(processes=8) as pool:
+    with Pool(processes=half_processes) as pool:
         results_list = list(pool.imap(process_func, task_paths))
 
     update_pbar(15, pbar)
