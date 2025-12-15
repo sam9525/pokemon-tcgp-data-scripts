@@ -11,6 +11,7 @@ from src.services import (
     clear_paths,
 )
 from scripts import generate_json, generate_special_card_data
+from src.gui.utils import check_file_exist
 
 
 class JsonGeneratorWorker(QThread):
@@ -218,6 +219,14 @@ class JsonGeneratorTab:
         self.main_window.startGenBtn.setEnabled(False)
         self.main_window.genJsonProgressBar.setValue(0)
         self.current_progress_value = 0.0
+
+        # Check if the set code excel file exist
+        files_exist = check_file_exist(
+            self.main_window, self.selected_exp_code, mode="json"
+        )
+        if not files_exist:
+            self.main_window.startGenBtn.setEnabled(True)
+            return
 
         # Start thread
         self.worker.start()

@@ -1,8 +1,17 @@
 import asyncio
 from PyQt6.QtCore import QThread, pyqtSignal
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import (
+    QMessageBox,
+    QLabel,
+    QDialog,
+    QVBoxLayout,
+    QHBoxLayout,
+    QTextEdit,
+    QPushButton,
+)
 from src.config import EXPANSIONS, PACK_KEYS
 from scripts import crawler
+from src.gui.utils import check_file_exist
 
 
 class CrawlerWorker(QThread):
@@ -108,8 +117,26 @@ class CrawlerTab:
         self.main_window.startCrawlingBtn.setEnabled(False)
 
         if self.main_window.expRadioBtn.isChecked():
+            # Check if the set code excel file exist
+            files_exist = check_file_exist(
+                self.main_window, self.selected_exp_code, "excel"
+            )
+            if not files_exist:
+                self.main_window.startCrawlingBtn.setEnabled(True)
+                return
+
             self.worker = CrawlerWorker("e", self.selected_exp_code)
         elif self.main_window.packRadioBtn.isChecked():
+            # Check if the set code excel file exist
+            files_exist = check_file_exist(
+                self.main_window,
+                self.selected_exp_code + "_" + self.selected_pack_name,
+                "excel",
+            )
+            if not files_exist:
+                self.main_window.startCrawlingBtn.setEnabled(True)
+                return
+
             self.worker = CrawlerWorker(
                 "p",
                 self.selected_exp_code,
