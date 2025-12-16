@@ -175,12 +175,15 @@ def generate_special_card_data(image_folder, duplicate_list, pbar=None):
     duplicate_data = safe_load_json(duplicate_list)
 
     # Load icons
+    log("Loading icons...", pbar)
     icons = load_icons()
 
     update_pbar(5, pbar)
 
     total_images = len(os.listdir(image_folder))
+    log(f"Found {total_images} valid cards to process.", pbar)
 
+    log("Scanning images...", pbar)
     task_paths = []
     for filename in os.listdir(image_folder):
         if filename.lower().endswith((".png", ".jpg", ".jpeg")):
@@ -190,6 +193,7 @@ def generate_special_card_data(image_folder, duplicate_list, pbar=None):
     # Using half of the cpu processes
     half_processes = os.cpu_count() // 2
 
+    log("Start special processing cards...", pbar)
     process_fun = partial(
         process_single_card,
         duplicate_data=duplicate_data,
@@ -201,7 +205,9 @@ def generate_special_card_data(image_folder, duplicate_list, pbar=None):
         for result in pool.imap(process_fun, task_paths):
             results_list.append(result)
             update_pbar(30 / total_images, pbar)
+    log("Processing cards completed.", pbar)
 
+    log("Aggregating results...", pbar)
     # Aggregate results
     for key, data in results_list:
         if key and data:

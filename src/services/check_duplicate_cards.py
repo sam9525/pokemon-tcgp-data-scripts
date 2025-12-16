@@ -1,6 +1,7 @@
 import json
 import os
 from src.utils import log, update_pbar
+import pandas as pd
 
 
 def check_duplicate_cards(input_file, pbar=None):
@@ -48,3 +49,45 @@ def check_duplicate_cards(input_file, pbar=None):
     sorted_duplicates = dict(sorted(duplicates.items()))
 
     return sorted_duplicates
+
+
+def check_duplicate_specific_card(image_path, excel_files, pbar=None):
+    """
+    Checks which Excel files (packs) contain a specific card identified by image_path.
+
+    Args:
+        image_path (str): Path to the image file, from which the card name is extracted.
+        excel_files (dict): A dictionary where keys are pack names (str) and values are
+        pbar: Progress bar for UI updates.
+
+    Returns:
+        target_card_name (str): The name of the card being checked.
+        found_in_packs (set): A set of pack names (strings) where the specified card was found.
+            Returns an empty set if the card name cannot be extracted or no packs are found.
+    """
+    filename = os.path.basename(image_path)
+    parts = filename.split("_")
+    if len(parts) <= 4:
+        log(f"Error: Could not extract card name from image path: {image_path}", pbar)
+        return set()
+    target_card_name = parts[4]
+
+    found_in_packs = set()
+
+    for pack_name, path in excel_files.items():
+        df = pd.read_excel(path, usecols=["Image Name"])
+
+        # Extract card names from image names
+        card_names_in_pack = (
+            df["Image Name"]
+            .astype(str)
+            .apply(
+                lambda name: (name.split("_")[4] if len(name.split("_")) > 4 else None)
+            )
+            .dropna()
+        )
+
+        if target_card_name in card_names_in_pack.values:
+            found_in_packs.add(pack_name)
+
+    return target_card_name, list(found_in_packs)

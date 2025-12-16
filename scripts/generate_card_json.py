@@ -5,8 +5,13 @@ import json
 import cv2
 import numpy as np
 import argparse
-from src.services import check_duplicate_cards
-from src.services import load_icons, match_icon
+from src.services import (
+    load_icons,
+    match_icon,
+    check_duplicate_cards,
+    check_duplicate_specific_card,
+    load_promo_lists,
+)
 from src.utils import log, update_pbar
 from multiprocessing import Pool
 from functools import partial
@@ -153,6 +158,7 @@ def generate_json(folder_path, excel_paths, pbar=None):
     # Using half of the cpu processes
     half_processes = os.cpu_count() // 2
 
+    log("Start processing cards...", pbar)
     # Process images in parallel
     with Pool(processes=half_processes) as pool:
         results_list = list(pool.imap(process_func, task_paths))
@@ -161,10 +167,27 @@ def generate_json(folder_path, excel_paths, pbar=None):
 
     # Aggregate results
     count = 0
-    for (matched_packs, card_id), card_type in zip(task_metadata, results_list):
+    non_pokemon_booster_pack = {}
+
+    promo_a_names, promo_b_names = load_promo_lists(pbar=pbar)
+
+    for (matched_packs, card_id), image_path, card_type in zip(
+        task_metadata, task_paths, results_list
+    ):
         update_pbar(10 / len(results_list), pbar)
 
         if card_type == "unknown":
+            # Check the booster pack
+            card_name, booster_pack = check_duplicate_specific_card(
+                image_path, EXCEL_FILES
+            )
+            if not booster_pack:
+                if card_name in promo_a_names:
+                    booster_pack.append("promo-a")
+                if card_name in promo_b_names:
+                    booster_pack.append("promo-b")
+
+            non_pokemon_booster_pack[card_name] = {"booster_pack": booster_pack}
             continue
 
         for pack_name in matched_packs:
@@ -184,7 +207,7 @@ def generate_json(folder_path, excel_paths, pbar=None):
     for p in result:
         final_result[p] = {k: v for k, v in result[p].items() if v}
 
-    return final_result
+    return final_result, non_pokemon_booster_pack
 
 
 def main():
@@ -197,13 +220,20 @@ def main():
 
     args = parser.parse_args()
 
-    final_result = generate_json(args.image_folder, args.excel_files)
+    final_result, non_pokemon_booster_pack = generate_json(
+        args.image_folder, args.excel_files
+    )
 
     OUTPUT_FILE = f"json/{args.output_name}.json"
 
     print(f"Writing to {OUTPUT_FILE}...")
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
     safe_dump_json(final_result, OUTPUT_FILE)
+
+    # Generate booster pack json
+    safe_dump_json(
+        non_pokemon_booster_pack, f"json/{args.output_name}_non_pokemon.json"
+    )
 
     # Check duplicates
     print("Generating json file for duplicates...")

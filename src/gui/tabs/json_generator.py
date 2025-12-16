@@ -22,6 +22,7 @@ class JsonGeneratorWorker(QThread):
 
     def __init__(self, selected_exp_code, selected_folder, selected_files):
         super().__init__()
+        self.selected_exp_code = selected_exp_code
         self.OUTPUT_FILE = f"json/{selected_exp_code}.json"
         self.DUPLICATE_FILE = f"json/{selected_exp_code}_duplicates.json"
         self.SPECIAL_FILE = f"json/{selected_exp_code}_special.json"
@@ -45,7 +46,9 @@ class JsonGeneratorWorker(QThread):
             folder_path = self.selected_folder[0]
 
             # Generate json which include card types
-            result = generate_json(folder_path, self.selected_files, pbar=pbar)
+            result, non_pokemon_booster_pack = generate_json(
+                folder_path, self.selected_files, pbar=pbar
+            )
 
             self.log.emit(f"Writing to {self.OUTPUT_FILE}...")
             os.makedirs(os.path.dirname(self.OUTPUT_FILE), exist_ok=True)
@@ -65,6 +68,19 @@ class JsonGeneratorWorker(QThread):
             special_results = generate_special_card_data(
                 folder_path, self.DUPLICATE_FILE, pbar=pbar
             )
+
+            # Combine the non pokemon booster pack
+            for key, value in non_pokemon_booster_pack.items():
+                if (
+                    key in special_results
+                    and isinstance(special_results[key], dict)
+                    and isinstance(value, dict)
+                ):
+                    special_results[key].update(value)
+                else:
+                    special_results[key] = value
+
+            self.log.emit("Combine non pokemon booster pack...")
 
             self.log.emit(f"Writing to {self.SPECIAL_FILE}...")
             safe_dump_json(special_results, self.SPECIAL_FILE)
