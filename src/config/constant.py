@@ -53,4 +53,5 @@ CARD_REGIONS = {
     "type": {"top": 0.03, "bottom": 0.09, "left": 0.88, "right": 0.95},
     "weakness": {"top": 0.86, "bottom": 0.89, "left": 0.28, "right": 0.33},
     "attack": {"top": 0.55, "bottom": 0.80, "left": 0.05, "right": 0.30},
+    "trainer": {"top": 0.03, "bottom": 0.06, "left": 0.05, "right": 0.15},
 }

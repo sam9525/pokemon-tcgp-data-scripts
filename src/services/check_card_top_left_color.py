@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import colorsys
+from src.config import CARD_REGIONS
 
 
 def check_top_left_color(image_path):
@@ -20,10 +21,10 @@ def check_top_left_color(image_path):
     height, width = img.shape[:2]
 
     # Top 3-6%, Left 5-15%
-    top = int(height * 0.03)
-    bottom = int(height * 0.06)
-    left = int(width * 0.05)
-    right = int(width * 0.15)
+    top = int(height * CARD_REGIONS["trainer"]["top"])
+    bottom = int(height * CARD_REGIONS["trainer"]["bottom"])
+    left = int(width * CARD_REGIONS["trainer"]["left"])
+    right = int(width * CARD_REGIONS["trainer"]["right"])
 
     crop = img[top:bottom, left:right]
 
