@@ -19,7 +19,7 @@ class TCGPToolGUI(QMainWindow):
         super().__init__()
 
         # Load the UI file
-        uic.loadUi("src\gui\gui.ui", self)
+        uic.loadUi(os.path.join("src", "gui", "gui.ui"), self)
 
         # Default expansion
         self.selected_exp_name = "A1_genetic-apex"
