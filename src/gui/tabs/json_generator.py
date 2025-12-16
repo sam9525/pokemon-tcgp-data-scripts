@@ -215,7 +215,7 @@ class JsonGeneratorTab:
         self.main_window.statusbar.showMessage(message)
 
     def on_json_generator_finished(self):
-        self.main_window.startGenBtn.setEnabled(True)
+        self.set_controls_enabled(True)
         self.main_window.genJsonProgressBar.setValue(100)
 
         self.main_window.statusbar.showMessage("Generating process finished.")
@@ -224,11 +224,34 @@ class JsonGeneratorTab:
         )
 
     def on_json_generator_error(self, err):
-        self.main_window.startGenBtn.setEnabled(True)
+        self.set_controls_enabled(True)
         self.main_window.statusbar.showMessage(f"Error: {err}")
 
+    def set_controls_enabled(self, enabled: bool):
+        self.main_window.expansionComboBox.setEnabled(enabled)
+        self.main_window.browseFolderBtnInTab3.setEnabled(enabled)
+        self.main_window.clearBtnInTab3.setEnabled(enabled)
+        self.main_window.browseExcelBtnInTab3.setEnabled(enabled)
+        self.main_window.clearExcelBtnInTab3.setEnabled(enabled)
+        self.main_window.removeSelectedBtnInTab3.setEnabled(enabled)
+        self.main_window.startGenBtn.setEnabled(enabled)
+
     def run_gen_json(self):
-        # Worker setup
+        # Set to disabled
+        self.set_controls_enabled(False)
+
+        if not self.main_window.selected_gen_json_folder:
+            self.set_controls_enabled(True)
+            QMessageBox.warning(self.main_window, "Input Error", "No folder selected.")
+            return
+
+        if not self.main_window.selected_gen_json_files:
+            self.set_controls_enabled(True)
+            QMessageBox.warning(
+                self.main_window, "Input Error", "No Excel file selected."
+            )
+            return
+
         self.worker = JsonGeneratorWorker(
             self.main_window.selected_exp_code,
             self.main_window.selected_gen_json_folder,
@@ -242,7 +265,6 @@ class JsonGeneratorTab:
         self.worker.error.connect(self.on_json_generator_error)
 
         # Reset UI
-        self.main_window.startGenBtn.setEnabled(False)
         self.main_window.genJsonProgressBar.setValue(0)
         self.current_progress_value = 0.0
 
@@ -251,7 +273,7 @@ class JsonGeneratorTab:
             self.main_window, self.main_window.selected_exp_code, mode="json"
         )
         if not files_exist:
-            self.main_window.startGenBtn.setEnabled(True)
+            self.set_controls_enabled(True)
             return
 
         # Start thread

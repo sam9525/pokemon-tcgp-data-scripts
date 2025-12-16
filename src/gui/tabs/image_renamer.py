@@ -187,7 +187,7 @@ class ImageRenamerTab:
         dialog.exec()
 
     def on_renamer_finished(self):
-        self.main_window.startRenameBtn.setEnabled(True)
+        self.set_controls_enabled(True)
         self.main_window.renamerProgressBar.setValue(100)
 
         if self.worker.dry_run:
@@ -199,17 +199,32 @@ class ImageRenamerTab:
                 self.main_window, "Info", "Renaming process finished!"
             )
 
+    def set_controls_enabled(self, enabled: bool):
+        self.main_window.browseFolderBtnInTab2.setEnabled(enabled)
+        self.main_window.clearFoldersBtnInTab2.setEnabled(enabled)
+        self.main_window.removeSelectedBtnInTab2.setEnabled(enabled)
+        self.main_window.browseFileBtnInTab2.setEnabled(enabled)
+        self.main_window.clearFileBtnInTab2.setEnabled(enabled)
+        self.main_window.startRenameBtn.setEnabled(enabled)
+
     def on_renamer_error(self, err):
-        self.main_window.startRenameBtn.setEnabled(True)
+        self.set_controls_enabled(True)
         self.main_window.statusbar.showMessage(f"Error: {err}")
 
     def run_renamer(self, dry_run=None):
+        # Set to disabled
+        self.set_controls_enabled(False)
+
         if not self.main_window.selected_rename_folders:
-            self.main_window.statusbar.showMessage("No folders selected.")
+            self.set_controls_enabled(True)
+            QMessageBox.warning(self.main_window, "Input Error", "No folders selected.")
             return
 
         if not self.main_window.selected_rename_file:
-            self.main_window.statusbar.showMessage("No Excel file selected.")
+            self.set_controls_enabled(True)
+            QMessageBox.warning(
+                self.main_window, "Input Error", "No Excel file selected."
+            )
             return
 
         if dry_run is not None:
@@ -230,7 +245,6 @@ class ImageRenamerTab:
         self.worker.error.connect(self.on_renamer_error)
 
         # Reset UI
-        self.main_window.startRenameBtn.setEnabled(False)
         self.main_window.renamerProgressBar.setValue(0)
         self.current_progress_value = 0.0
 

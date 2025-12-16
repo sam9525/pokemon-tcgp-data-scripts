@@ -112,19 +112,28 @@ class CrawlerTab:
         self.main_window.statusbar.showMessage(msg)
 
     def crawling_finished(self):
-        self.main_window.startCrawlingBtn.setEnabled(True)
+        self.set_controls_enabled(True)
         self.main_window.crawlerProgressBar.setValue(100)
         QMessageBox.information(self.main_window, "Info", "Crawling finished!")
 
     def crawling_error(self, err):
-        self.main_window.startCrawlingBtn.setEnabled(True)
+        self.set_controls_enabled(True)
         QMessageBox.critical(self.main_window, "Error", f"An error occurred: {err}")
+
+    def set_controls_enabled(self, enabled: bool):
+        self.main_window.startCrawlingBtn.setEnabled(enabled)
+        self.main_window.expRadioBtn.setEnabled(enabled)
+        self.main_window.packRadioBtn.setEnabled(enabled)
+        self.main_window.expComboB.setEnabled(enabled)
+        self.main_window.packKeyComboB.setEnabled(enabled)
 
     def start_crawling(self):
         self.main_window.crawlerProgressBar.setMaximum(100)
         self.main_window.crawlerProgressBar.setValue(0)
         self.current_progress_value = 0.0
-        self.main_window.startCrawlingBtn.setEnabled(False)
+
+        # Set to disabled
+        self.set_controls_enabled(False)
 
         if self.main_window.expRadioBtn.isChecked():
             # Check if the set code excel file exist
@@ -132,7 +141,7 @@ class CrawlerTab:
                 self.main_window, self.main_window.selected_exp_code, "excel"
             )
             if not files_exist:
-                self.main_window.startCrawlingBtn.setEnabled(True)
+                self.set_controls_enabled(True)
                 return
 
             self.worker = CrawlerWorker("e", self.main_window.selected_exp_code)
@@ -152,7 +161,7 @@ class CrawlerTab:
                 "excel",
             )
             if not files_exist:
-                self.main_window.startCrawlingBtn.setEnabled(True)
+                self.set_controls_enabled(True)
                 return
 
             self.worker = CrawlerWorker(
