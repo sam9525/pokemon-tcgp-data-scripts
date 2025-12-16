@@ -3,109 +3,163 @@
     "type": "none",
     "trainer": "tool",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "Pikachu"
+    ]
   },
   "KOURANOKASEKI": {
     "type": "none",
     "trainer": "tool",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "Charizard"
+    ]
   },
   "HIMITSUNOKOHAKU": {
     "type": "none",
     "trainer": "tool",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "Mewtwo"
+    ]
   },
   "ERIKA": {
     "type": "none",
     "trainer": "trainer",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "Charizard"
+    ]
   },
   "KASUMI": {
     "type": "none",
     "trainer": "trainer",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "Pikachu"
+    ]
   },
   "KATSURA": {
     "type": "none",
     "trainer": "trainer",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "Charizard"
+    ]
   },
   "KYOU": {
     "type": "none",
     "trainer": "trainer",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "Mewtwo"
+    ]
   },
   "SAKAKI": {
     "type": "none",
     "trainer": "trainer",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "Mewtwo"
+    ]
   },
   "TAKESHI": {
     "type": "none",
     "trainer": "trainer",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "Pikachu"
+    ]
   },
   "NATSUME": {
     "type": "none",
     "trainer": "trainer",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "Charizard"
+    ]
   },
   "MATISSE": {
     "type": "none",
     "trainer": "trainer",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "Pikachu"
+    ]
   },
   "KIZUGUSURI": {
     "type": "none",
     "trainer": "tool",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "promo-a"
+    ]
   },
   "SPEEDER": {
     "type": "none",
     "trainer": "tool",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "promo-a"
+    ]
   },
   "MONSTERBALL": {
     "type": "none",
     "trainer": "tool",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "promo-a"
+    ]
   },
   "HAKASENOKENKYU": {
     "type": "none",
     "trainer": "trainer",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "promo-a"
+    ]
   },
   "HANDSCOPE": {
     "type": "none",
     "trainer": "tool",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "promo-a"
+    ]
   },
   "POKEMONZUKAN": {
     "type": "none",
     "trainer": "tool",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "promo-a"
+    ]
   },
   "REDCARD": {
     "type": "none",
     "trainer": "tool",
     "fightEnergy": "none",
-    "weakness": "none"
+    "weakness": "none",
+    "booster_pack": [
+      "promo-a"
+    ]
   },
   "000050": {
     "fightEnergy": [
