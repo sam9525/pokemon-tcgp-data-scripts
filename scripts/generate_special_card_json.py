@@ -183,7 +183,7 @@ def generate_special_card_data(image_folder, duplicate_list, pbar=None):
 
     task_paths = []
     for filename in os.listdir(image_folder):
-        if filename.lower().endswith(".png", ".jpg", ".jpeg"):
+        if filename.lower().endswith((".png", ".jpg", ".jpeg")):
             image_path = os.path.join(image_folder, filename)
             task_paths.append(image_path)
 
