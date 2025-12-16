@@ -59,7 +59,7 @@ async def crawler(exorp, set, pack_key=None, pack_name=None, pbar=None):
 
         if count == 0:
             log(
-                "No cards found initially. Taking debug screenshot and dumping HTML...",
+                "No cards found initially.",
                 pbar,
             )
 
