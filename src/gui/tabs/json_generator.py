@@ -245,7 +245,8 @@ class JsonGeneratorTab:
         excel_paths = self.main_window.selected_gen_json_files
 
         for excel_path in excel_paths:
-            excel_prefix = extract_excel_prefix(excel_path)
+            excel_prefix = extract_excel_prefix(excel_path, separator="_")
+            print(excel_prefix)
             if excel_prefix != exp_code:
                 unmatched_paths.append(excel_path)
 
