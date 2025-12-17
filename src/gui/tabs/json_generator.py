@@ -137,9 +137,10 @@ class JsonGeneratorTab:
         self.main_window.selected_exp_code = combobox.itemData(currentIndex)
 
         # Change the expansion combobox in crawler tab
-        self.main_window.expComboB.setCurrentIndex(
-            self.main_window.expComboB.findData(self.main_window.selected_exp_code)
-        )
+        if not self.main_window.expRadioBtn.isChecked():
+            self.main_window.expComboB.setCurrentIndex(
+                self.main_window.expComboB.findData(self.main_window.selected_exp_code)
+            )
 
     def select_folder_handler(self):
         self.main_window.selected_gen_json_folder.clear()
