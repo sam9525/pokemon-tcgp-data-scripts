@@ -163,8 +163,8 @@ class TestTCGPToolGUI(unittest.TestCase):
         self.assertTrue(self.window.startRenameBtn.isEnabled())
 
         # Prepare for start run
-        self.window.selected_rename_folders = ["/dummy/folder"]
-        self.window.selected_rename_file = ["/dummy/excel.xlsx"]
+        self.window.selected_rename_folders = ["/path/to/A1 - Set/images"]
+        self.window.selected_rename_file = ["/path/to/A1_list.xlsx"]
 
         # Click start button
         self.window.startRenameBtn.click()
@@ -206,9 +206,9 @@ class TestTCGPToolGUI(unittest.TestCase):
         self.assertEqual(self.window.selected_gen_json_files, [])
 
         # Manually add some dummy data
-        self.window.selected_gen_json_folder.append("/dummy/path")
+        self.window.selected_gen_json_folder.append("/path/to/A1 - Set/json_output")
 
-        self.window.selected_gen_json_files.append("/dummy/file")
+        self.window.selected_gen_json_files.append("/path/to/A1.xlsx")
 
         # Check all controls are enabled
         self.assertTrue(self.window.expansionComboBox.isEnabled())
