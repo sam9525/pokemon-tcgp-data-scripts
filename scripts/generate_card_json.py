@@ -147,6 +147,9 @@ def generate_json(folder_path, excel_paths, pbar=None):
             if matched_packs:
                 task_paths.append(img_path)
                 task_metadata.append((matched_packs, card_id))
+            else:
+                task_paths.append(img_path)
+                task_metadata.append(([], card_id))
         except IndexError:
             continue
 
