@@ -66,4 +66,4 @@ def check_file_exist(main_window, selected_exp_code, mode):
         else:
             return False
 
-    return False
+    return True
