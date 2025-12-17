@@ -9,7 +9,7 @@ from PyQt6.QtWidgets import (
     QTextEdit,
     QPushButton,
 )
-from src.config import EXPANSIONS, PACK_KEYS
+from src.config import EXPANSIONS_SHORT, EXPANSIONS, PACK_KEYS, MATCH_EXP_AND_PACK
 from scripts import crawler
 from src.gui.utils import check_file_exist
 
@@ -65,8 +65,11 @@ class CrawlerTab:
 
     def setup_ui(self):
         # Init Expansion code
-        for item in EXPANSIONS:
+        for item in EXPANSIONS_SHORT:
             self.main_window.expComboB.addItem(item["name"], item["code"])
+
+        # Connect radio buttons
+        self.main_window.expRadioBtn.toggled.connect(self.on_radio_button_changed)
 
         # Set default expansion
         self.main_window.expComboB.setCurrentIndex(
@@ -85,6 +88,24 @@ class CrawlerTab:
 
         # Handle start button
         self.main_window.startCrawlingBtn.clicked.connect(self.start_crawling)
+
+    def on_radio_button_changed(self):
+        # Clear existing items before adding new ones
+        self.main_window.expComboB.blockSignals(True)
+        self.main_window.expComboB.clear()
+
+        if self.main_window.expRadioBtn.isChecked():
+            for item in EXPANSIONS_SHORT:
+                self.main_window.expComboB.addItem(item["name"], item["code"])
+        else:
+            for item in EXPANSIONS:
+                self.main_window.expComboB.addItem(item["name"], item["code"])
+
+        self.main_window.expComboB.blockSignals(False)
+
+        # Set default index
+        if self.main_window.expComboB.count() > 0:
+            self.main_window.expComboB.setCurrentIndex(0)
 
     def on_combobox_changed(self):
         combobox = self.main_window.sender()
@@ -120,6 +141,33 @@ class CrawlerTab:
         self.set_controls_enabled(True)
         QMessageBox.critical(self.main_window, "Error", f"An error occurred: {err}")
 
+    def check_exp_and_pack_key(self):
+        selected_exp_code = self.main_window.expComboB.itemData(
+            self.main_window.expComboB.currentIndex()
+        )
+        selected_pack_code = self.main_window.packKeyComboB.itemData(
+            self.main_window.packKeyComboB.currentIndex()
+        )
+
+        is_match = False
+        if selected_exp_code in MATCH_EXP_AND_PACK:
+            expected_pack = MATCH_EXP_AND_PACK[selected_exp_code]
+            if isinstance(expected_pack, list):
+                if selected_pack_code in expected_pack:
+                    is_match = True
+            elif expected_pack == selected_pack_code:
+                is_match = True
+
+        if not is_match:
+            QMessageBox.warning(
+                self.main_window,
+                "Warning",
+                f"The Expansion and Pack Key are not matched!",
+            )
+            return False
+
+        return True
+
     def set_controls_enabled(self, enabled: bool):
         self.main_window.startCrawlingBtn.setEnabled(enabled)
         self.main_window.expRadioBtn.setEnabled(enabled)
@@ -131,6 +179,13 @@ class CrawlerTab:
         self.main_window.crawlerProgressBar.setMaximum(100)
         self.main_window.crawlerProgressBar.setValue(0)
         self.current_progress_value = 0.0
+
+        # Check the Expansion and Pack Key are matched
+        if not self.check_exp_and_pack_key():
+            self.main_window.statusbar.showMessage(
+                "The Expansion and Pack Key are not matched!"
+            )
+            return
 
         # Set to disabled
         self.set_controls_enabled(False)

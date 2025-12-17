@@ -1,5 +1,13 @@
 SUPPORTED_EXCEL_FORMATS = {"*.xlsx", "*.xls"}
 
+EXPANSIONS_SHORT = [
+    {"name": "A1_genetic-apex", "code": "A1"},
+    {"name": "A2_space-time-smackdown", "code": "A2"},
+    {"name": "A3_celestial-guardians", "code": "A3"},
+    {"name": "A4_wisdom-of-sea-and-sky", "code": "A4"},
+    {"name": "B1_mega-brave", "code": "B1"},
+]
+
 EXPANSIONS = [
     {"name": "A1_genetic-apex", "code": "A1"},
     {"name": "A1a_mythical-island", "code": "A1a"},
@@ -12,6 +20,16 @@ EXPANSIONS = [
     {"name": "A4_wisdom-of-sea-and-sky", "code": "A4"},
     {"name": "A4a_secluded-springs", "code": "A4a"},
     {"name": "B1_mega-brave", "code": "B1"},
+]
+
+BOOSTER_PACKS = [
+    {"name": "Mew", "code": "A1a"},
+    {"name": "Arceus", "code": "A2a"},
+    {"name": "Shining-Revelry", "code": "A2b"},
+    {"name": "Extradimensional-Crisis", "code": "A3a"},
+    {"name": "Eevee-Grove", "code": "A3b"},
+    {"name": "Secluded-Springs", "code": "A4a"},
+    {"name": "Deluxe-Pack: ex", "code": "A4b"},
 ]
 
 PACK_KEYS = [
@@ -35,6 +53,21 @@ PACK_KEYS = [
     {"name": "Mega Blaziken", "code": "BN001_0010_00_000"},
     {"name": "Mega Gyarados", "code": "BN001_0020_00_000"},
 ]
+
+MATCH_EXP_AND_PACK = {
+    "A1": ["AN001_0010_00_000", "AN001_0020_00_000", "AN001_0030_00_000"],
+    "A1a": "AN002_0010_00_000",
+    "A2": ["AN003_0010_00_000", "AN003_0020_00_000"],
+    "A2a": "AN004_0010_00_000",
+    "A2b": "AN005_0010_00_000",
+    "A3": ["AN006_0010_00_000", "AN006_0020_00_000"],
+    "A3a": "AN007_0010_00_000",
+    "A3b": "AN008_0010_00_000",
+    "A4": ["AN009_0010_00_000", "AN009_0020_00_000"],
+    "A4a": "AN010_0010_00_000",
+    "A4b": "AN011_0010_00_000",
+    "B1": ["BN001_0010_00_000", "BN001_0020_00_000", "BN001_0030_00_000"],
+}
 
 WEAKNESS_MAP = {
     "grass": "fire",

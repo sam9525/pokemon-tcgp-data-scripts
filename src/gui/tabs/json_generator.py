@@ -12,6 +12,7 @@ from src.services import (
 )
 from scripts import generate_json, generate_special_card_data
 from src.gui.utils import check_file_exist
+from src.utils import extract_folder_prefix, extract_excel_prefix
 
 
 class JsonGeneratorWorker(QThread):
@@ -141,6 +142,8 @@ class JsonGeneratorTab:
         )
 
     def select_folder_handler(self):
+        self.main_window.selected_gen_json_folder.clear()
+
         if select_paths(
             self.main_window,
             self.main_window.selected_gen_json_folder,
@@ -149,7 +152,6 @@ class JsonGeneratorTab:
         ):
             update_display(
                 line_edit=self.main_window.folderLineEditInTab3,
-                count_label=self.main_window.countExcelLabel,
                 items=self.main_window.selected_gen_json_folder,
             )
             self.main_window.statusbar.showMessage("Added 1 folder.")
@@ -227,6 +229,37 @@ class JsonGeneratorTab:
         self.set_controls_enabled(True)
         self.main_window.statusbar.showMessage(f"Error: {err}")
 
+    def check_exp_folder_excel_match(self, exp_code):
+        # Check if the folder name and expansion code match
+        unmatched_paths = []
+
+        # Check folder name
+        folder_prefix = extract_folder_prefix(
+            self.main_window.selected_gen_json_folder[0]
+        )
+        if folder_prefix != exp_code:
+            unmatched_paths.append(self.main_window.selected_gen_json_folder[0])
+
+        # Check excel files name
+        excel_paths = self.main_window.selected_gen_json_files
+
+        for excel_path in excel_paths:
+            excel_prefix = extract_excel_prefix(excel_path)
+            if excel_prefix != exp_code:
+                unmatched_paths.append(excel_path)
+
+        if unmatched_paths:
+            self.set_controls_enabled(True)
+            unmatched_list_str = "\n".join(unmatched_paths)
+            QMessageBox.warning(
+                self.main_window,
+                "Input Error",
+                f"The following folder or excel files do not match the expansion code '{exp_code}':\n{unmatched_list_str}",
+            )
+            return False
+
+        return True
+
     def set_controls_enabled(self, enabled: bool):
         self.main_window.expansionComboBox.setEnabled(enabled)
         self.main_window.browseFolderBtnInTab3.setEnabled(enabled)
@@ -237,9 +270,6 @@ class JsonGeneratorTab:
         self.main_window.startGenBtn.setEnabled(enabled)
 
     def run_gen_json(self):
-        # Set to disabled
-        self.set_controls_enabled(False)
-
         if not self.main_window.selected_gen_json_folder:
             self.set_controls_enabled(True)
             QMessageBox.warning(self.main_window, "Input Error", "No folder selected.")
@@ -251,6 +281,18 @@ class JsonGeneratorTab:
                 self.main_window, "Input Error", "No Excel file selected."
             )
             return
+
+        # Check if the folder name and expansion code match
+        if not self.check_exp_folder_excel_match(
+            self.main_window.selected_exp_code,
+        ):
+            self.main_window.statusbar.showMessage(
+                "Folder name and excel files do not match with expansion code."
+            )
+            return
+
+        # Set to disabled
+        self.set_controls_enabled(False)
 
         self.worker = JsonGeneratorWorker(
             self.main_window.selected_exp_code,

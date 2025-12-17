@@ -93,7 +93,7 @@
           <item>
            <widget class="QGroupBox" name="crawlerGB">
             <property name="title">
-             <string>Pack Key</string>
+             <string>Expansion</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_12">
              <item>

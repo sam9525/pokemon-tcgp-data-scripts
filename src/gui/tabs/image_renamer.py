@@ -1,3 +1,4 @@
+import os
 from PyQt6.QtCore import QObject, QThread, pyqtSignal
 from PyQt6.QtWidgets import QMessageBox, QDialog, QVBoxLayout, QTextEdit, QPushButton
 from src.services import (
@@ -10,6 +11,7 @@ from src.services import (
 from scripts import rename_images
 from src.utils import dry_run_log
 from src.config import SUPPORTED_EXCEL_FORMATS
+from src.utils import extract_folder_prefix, extract_excel_prefix
 
 
 class RenamerWorker(QThread):
@@ -211,10 +213,35 @@ class ImageRenamerTab:
         self.set_controls_enabled(True)
         self.main_window.statusbar.showMessage(f"Error: {err}")
 
-    def run_renamer(self, dry_run=None):
-        # Set to disabled
-        self.set_controls_enabled(False)
+    def check_folder_excel_match(self, folders, excel_path):
+        # Check if the folder name and excel file name match
+        # Match the name before _
+        unmatched_paths = []
 
+        # Check excel file name
+        excel_name = os.path.basename(excel_path)
+        excel_prefix = extract_excel_prefix(excel_path, separator="_")
+
+        # Check folder name
+        for folder in folders:
+            folder_prefix = extract_folder_prefix(folder)
+
+            if folder_prefix != excel_prefix:
+                unmatched_paths.append(folder)
+
+        if unmatched_paths:
+            self.set_controls_enabled(True)
+            unmatched_list_str = "\n".join(unmatched_paths)
+            QMessageBox.warning(
+                self.main_window,
+                "Input Error",
+                f"The following folders do not match the Excel file '{excel_name}':\n{unmatched_list_str}",
+            )
+            return False
+
+        return True
+
+    def run_renamer(self, dry_run=None):
         if not self.main_window.selected_rename_folders:
             self.set_controls_enabled(True)
             QMessageBox.warning(self.main_window, "Input Error", "No folders selected.")
@@ -227,13 +254,23 @@ class ImageRenamerTab:
             )
             return
 
+        folders = self.main_window.selected_rename_folders
+        excel_path = self.main_window.selected_rename_file[0]
+
+        # Check if the folder name and excel file name match
+        if not self.check_folder_excel_match(folders, excel_path):
+            self.main_window.statusbar.showMessage(
+                "Folder name and excel file name do not match."
+            )
+            return
+
+        # Set to disabled
+        self.set_controls_enabled(False)
+
         if dry_run is not None:
             isDryRun = dry_run
         else:
             isDryRun = self.main_window.dryRunCB.isChecked()
-        folders = self.main_window.selected_rename_folders
-
-        excel_path = self.main_window.selected_rename_file[0]
 
         # Worker setup
         self.worker = RenamerWorker(folders, excel_path, isDryRun)
