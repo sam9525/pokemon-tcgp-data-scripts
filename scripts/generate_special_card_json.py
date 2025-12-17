@@ -236,9 +236,7 @@ def main():
     parser.add_argument(
         "--image-folder", required=True, help="Path to the image folder:"
     )
-    parser.add_argument(
-        "--duplicate-list", required=True, help="Path to duplicate list json file:"
-    )
+    parser.add_argument("--duplicate-list", help="Path to duplicate list json file:")
     parser.add_argument("--output", required=True, help="Output JSON file")
 
     args = parser.parse_args()
