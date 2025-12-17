@@ -19,6 +19,7 @@ EXPANSIONS = [
     {"name": "A3b_eevee-groove", "code": "A3b"},
     {"name": "A4_wisdom-of-sea-and-sky", "code": "A4"},
     {"name": "A4a_secluded-springs", "code": "A4a"},
+    {"name": "A4b_deluxe-pack-ex", "code": "A4b"},
     {"name": "B1_mega-brave", "code": "B1"},
 ]
 
@@ -29,7 +30,7 @@ BOOSTER_PACKS = [
     {"name": "Extradimensional-Crisis", "code": "A3a"},
     {"name": "Eevee-Grove", "code": "A3b"},
     {"name": "Secluded-Springs", "code": "A4a"},
-    {"name": "Deluxe-Pack: ex", "code": "A4b"},
+    {"name": "Deluxe-Pack-ex", "code": "A4b"},
 ]
 
 PACK_KEYS = [
@@ -48,7 +49,7 @@ PACK_KEYS = [
     {"name": "Ho-oh", "code": "AN009_0010_00_000"},
     {"name": "Lugia", "code": "AN009_0020_00_000"},
     {"name": "Secluded Springs", "code": "AN010_0010_00_000"},
-    {"name": "Deluxe Pack: ex", "code": "AN011_0010_00_000"},
+    {"name": "Deluxe Pack ex", "code": "AN011_0010_00_000"},
     {"name": "Mega Altaria", "code": "BN001_0030_00_000"},
     {"name": "Mega Blaziken", "code": "BN001_0010_00_000"},
     {"name": "Mega Gyarados", "code": "BN001_0020_00_000"},
