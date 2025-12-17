@@ -163,7 +163,7 @@ def process_single_card(image_path, duplicate_data, icons, pbar=None):
     return key, final_result
 
 
-def generate_special_card_data(image_folder, duplicate_list, pbar=None):
+def generate_special_card_data(image_folder, duplicate_list="", pbar=None):
     results = {}
     non_pokemon = {}
 
@@ -172,7 +172,10 @@ def generate_special_card_data(image_folder, duplicate_list, pbar=None):
         log(f"Error: Folder {image_folder} does not exist.", pbar)
         return results
 
-    duplicate_data = safe_load_json(duplicate_list)
+    if duplicate_list:
+        duplicate_data = safe_load_json(duplicate_list)
+    else:
+        duplicate_data = {}
 
     # Load icons
     log("Loading icons...", pbar)

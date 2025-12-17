@@ -60,15 +60,19 @@ class JsonGeneratorWorker(QThread):
             duplicate_list = check_duplicate_cards(self.OUTPUT_FILE, pbar=pbar)
 
             # Output the duplicate result
-            safe_dump_json(duplicate_list, self.DUPLICATE_FILE)
+            if duplicate_list:
+                safe_dump_json(duplicate_list, self.DUPLICATE_FILE)
 
             self.log.emit("Completed generating duplicate json file.")
 
             # Generate special card data
             self.log.emit("Generating special card data...")
-            special_results = generate_special_card_data(
-                folder_path, self.DUPLICATE_FILE, pbar=pbar
-            )
+            if duplicate_list:
+                special_results = generate_special_card_data(
+                    folder_path, self.DUPLICATE_FILE, pbar=pbar
+                )
+            else:
+                special_results = generate_special_card_data(folder_path, "", pbar=pbar)
 
             # Combine the non pokemon booster pack
             for key, value in non_pokemon_booster_pack.items():
@@ -246,7 +250,6 @@ class JsonGeneratorTab:
 
         for excel_path in excel_paths:
             excel_prefix = extract_excel_prefix(excel_path, separator="_")
-            print(excel_prefix)
             if excel_prefix != exp_code:
                 unmatched_paths.append(excel_path)
 
