@@ -162,6 +162,9 @@ def find_all_icons(crop, icons, threshold=0.5):
             unique_matches_by_name[name] = (score, x, y, w, h, name)
     final_matches = list(unique_matches_by_name.values())
 
+    if not final_matches:
+        return ["all"]
+
     final_matches.sort(key=lambda x: x[2])  # Sort by Y
 
     curr_y = final_matches[0][2]

@@ -85,6 +85,8 @@ def analyze_image(image_path, icons, duplicate_data, key, gold_card):
     fight_energy = find_all_icons(crop_atk, icons)
     if results["type"] in fight_energy:
         results["fightEnergy"] = []
+    elif "all" in fight_energy:
+        results["fightEnergy"] = ["all"]
     else:
         results["fightEnergy"] = fight_energy
 
