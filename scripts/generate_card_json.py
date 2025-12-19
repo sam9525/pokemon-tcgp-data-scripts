@@ -69,9 +69,9 @@ def generate_json(folder_path, excel_paths, pbar=None):
     for path in excel_paths:
         filename = os.path.basename(path)
         if "_" in filename:
-            pack_name = os.path.splitext(filename.split("_")[1])[0]
+            pack_name = os.path.splitext(filename.split("_")[1])[0].lower()
         else:
-            pack_name = os.path.splitext(filename)[0]
+            pack_name = os.path.splitext(filename)[0].lower()
         EXCEL_FILES[pack_name] = path
 
     log("Loading icons...", pbar)
