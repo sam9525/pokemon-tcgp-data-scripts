@@ -30,8 +30,8 @@ def load_promo_lists(pbar=None):
             log(f"Warning: {file_path} not found", pbar)
 
     try:
-        _load_single_promo_list("lists/PROMO-A.xlsx", promo_a_names, "PROMO-A")
-        _load_single_promo_list("lists/PROMO-B.xlsx", promo_b_names, "PROMO-B")
+        _load_single_promo_list("lists/PROMO-A.xlsx", promo_a_names, "promo-a")
+        _load_single_promo_list("lists/PROMO-B.xlsx", promo_b_names, "promo-b")
     except Exception as e:
         log(f"Error loading promo lists: {e}", pbar)
         log("Please use the crawler to get the promo list first!", pbar)
