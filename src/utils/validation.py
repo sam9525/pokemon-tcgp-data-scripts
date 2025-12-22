@@ -30,3 +30,7 @@ def extract_excel_prefix(file_path: str, separator: str = None) -> str:
     if separator:
         return stem.split(separator)[0]
     return stem
+
+
+def extract_folder(folder_path: str) -> str:
+    return os.path.basename(folder_path)

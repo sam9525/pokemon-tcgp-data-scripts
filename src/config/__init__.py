@@ -7,6 +7,7 @@ from .constant import (
     MATCH_EXP_AND_PACK,
     WEAKNESS_MAP,
     CARD_REGIONS,
+    LANGUAGES,
 )
 
 __all__ = [

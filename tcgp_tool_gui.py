@@ -11,7 +11,7 @@ from PyQt6.QtWidgets import (
     QMessageBox,
 )
 from PyQt6.QtGui import QIcon
-from src.gui.tabs import CrawlerTab, ImageRenamerTab, JsonGeneratorTab
+from src.gui.tabs import CrawlerTab, ImageRenamerTab, JsonGeneratorTab, GenCardNameTab
 
 
 class TCGPToolGUI(QMainWindow):
@@ -40,6 +40,13 @@ class TCGPToolGUI(QMainWindow):
         # Initialize selected files list
         self.selected_gen_json_files = []
 
+        # Initialize selected folders list
+        self.selected_gen_card_name_folder = []
+
+        # Initialize selected language
+        self.selected_lang_name = "English"
+        self.selected_lang_code = "en_US"
+
         # Initialize Tab 1
         self.tab1 = CrawlerTab(self)
 
@@ -48,6 +55,9 @@ class TCGPToolGUI(QMainWindow):
 
         # Initialize Tab 3
         self.tab3 = JsonGeneratorTab(self)
+
+        # Initialize Tab 4
+        self.tab4 = GenCardNameTab(self)
 
 
 def main():

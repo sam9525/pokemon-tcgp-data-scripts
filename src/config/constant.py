@@ -96,4 +96,11 @@ CARD_REGIONS = {
     "weakness": {"top": 0.86, "bottom": 0.89, "left": 0.28, "right": 0.33},
     "attack": {"top": 0.55, "bottom": 0.80, "left": 0.05, "right": 0.30},
     "trainer": {"top": 0.03, "bottom": 0.06, "left": 0.05, "right": 0.15},
+    "name": {"top": 0.037, "bottom": 0.13, "left": 0.04, "right": 0.65},
+}
+
+LANGUAGES = {
+    "en_US": "English",
+    "zh_TW": "Chinese",
+    "ja_JP": "Japanese",
 }

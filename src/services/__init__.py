@@ -8,6 +8,7 @@ from .folder_file_selection import (
     clear_paths,
 )
 from .check_promo_card import load_promo_lists
+from .ai_read_card_name import text_reader, analyze_card_name
 
 __all__ = [
     "check_duplicate_cards",
@@ -21,4 +22,6 @@ __all__ = [
     "remove_selected_paths",
     "clear_paths",
     "load_promo_lists",
+    "analyze_image",
+    "analyze_card_name",
 ]
