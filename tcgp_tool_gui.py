@@ -1,3 +1,4 @@
+from src.gui.gui_ui import Ui_MainWindow
 import sys
 import os
 import asyncio
@@ -14,12 +15,12 @@ from PyQt6.QtGui import QIcon
 from src.gui.tabs import CrawlerTab, ImageRenamerTab, JsonGeneratorTab, GenCardNameTab
 
 
-class TCGPToolGUI(QMainWindow):
+class TCGPToolGUI(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
 
-        # Load the UI file
-        uic.loadUi(os.path.join("src", "gui", "gui.ui"), self)
+        # Setup ui
+        self.setupUi(self)
 
         # Default expansion
         self.selected_exp_name = "A1_genetic-apex"
