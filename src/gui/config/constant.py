@@ -2,7 +2,7 @@ FINISH_CONFIGS = {
     "crawler": ("crawlerProgressBar", "Crawling finished!"),
     "image renamer": ("renamerProgressBar", "Renaming process finished!"),
     "json generator": ("genJsonProgressBar", "Generating process finished!"),
-    "gen card name": ("genCardNameProgressBar", "Generating process finished!"),
+    "gen card name": ("cardNameProgressBar", "Generating process finished!"),
 }
 
 
