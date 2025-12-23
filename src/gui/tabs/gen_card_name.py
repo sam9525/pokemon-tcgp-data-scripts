@@ -15,6 +15,9 @@ from src.gui.utils import (
     on_finished,
     on_error,
     set_controls_enabled,
+    selected_folders_handler,
+    clear_folders_handler,
+    remove_selected_folder_handler,
 )
 
 
@@ -61,70 +64,21 @@ class GenCardNameTab:
     def setup_ui(self):
         # Select folder
         self.main_window.browseFolderBtnInTab4.clicked.connect(
-            self.select_folders_handler
+            lambda: selected_folders_handler(
+                self.main_window, "gen card name", mode="folder", multi=True
+            )
         )
         self.main_window.clearFoldersBtnInTab4.clicked.connect(
-            self.clear_folder_handler
+            lambda: clear_folders_handler(self.main_window, "gen card name")
         )
         self.main_window.removeSelectedBtnInTab4.clicked.connect(
-            self.remove_selected_handler
+            lambda: remove_selected_folder_handler(self.main_window, "gen card name")
         )
 
         # Start generating
         self.main_window.startGenCardNameBtn.clicked.connect(
             lambda: self.run_gen_card_name()
         )
-
-    def select_folders_handler(self):
-        added = select_paths(
-            self.main_window,
-            self.main_window.selected_gen_card_name_folder,
-            mode="folder",
-            multi=True,
-        )
-        update_display(
-            list_widget=self.main_window.folderListInTab4,
-            line_edit=self.main_window.folderLineEditInTab4,
-            count_label=self.main_window.countLabelInTab4,
-            items=self.main_window.selected_gen_card_name_folder,
-        )
-        if added > 0:
-            self.main_window.statusbar.showMessage(
-                f"Added {added} folder(s). Total: {len(self.main_window.selected_gen_card_name_folder)}"
-            )
-
-    def clear_folder_handler(self):
-        if clear_paths(
-            self.main_window,
-            self.main_window.selected_gen_card_name_folder,
-            confirm=False,
-        ):
-            update_display(
-                line_edit=self.main_window.folderLineEditInTab4,
-                items=self.main_window.selected_gen_card_name_folder,
-            )
-            self.main_window.statusbar.showMessage("Excel File cleared")
-
-    def remove_selected_handler(self):
-        removed = remove_selected_paths(
-            self.main_window.folderListInTab4,
-            self.main_window.selected_gen_card_name_folder,
-        )
-        if removed > 0:
-            update_display(
-                list_widget=self.main_window.folderListInTab4,
-                line_edit=self.main_window.folderLineEditInTab4,
-                count_label=self.main_window.countLabelInTab4,
-                items=self.main_window.selected_gen_card_name_folder,
-            )
-            self.main_window.statusbar.showMessage(f"Removed {removed} folder(s)")
-
-    def lang_changed_handler(self):
-        combobox = self.main_window.sender()
-        currentIndex = combobox.currentIndex()
-
-        self.main_window.selected_lang_name = combobox.currentText()
-        self.main_window.selected_lang_code = combobox.itemData(currentIndex)
 
     def run_gen_card_name(self):
         set_controls_enabled(self.main_window, "gen card name", False)

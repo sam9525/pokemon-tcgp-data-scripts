@@ -6,6 +6,13 @@ from .progress_utils import (
     on_error,
     set_controls_enabled,
 )
+from .folder_handler import (
+    select_folder_handler,
+    clear_folder_handler,
+    selected_folders_handler,
+    clear_folders_handler,
+    remove_selected_folder_handler,
+)
 
 __all__ = [
     "check_file_exist",
@@ -14,4 +21,9 @@ __all__ = [
     "on_finished",
     "on_error",
     "set_controls_enabled",
+    "select_folder_handler",
+    "clear_folder_handler",
+    "selected_folders_handler",
+    "clear_folders_handler",
+    "remove_selected_folder_handler",
 ]

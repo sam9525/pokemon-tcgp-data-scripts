@@ -19,6 +19,8 @@ from src.gui.utils import (
     on_finished,
     on_error,
     set_controls_enabled,
+    select_folder_handler,
+    clear_folder_handler,
 )
 
 
@@ -126,9 +128,11 @@ class JsonGeneratorTab:
 
         # Select folder
         self.main_window.browseFolderBtnInTab3.clicked.connect(
-            self.select_folder_handler
+            lambda: select_folder_handler(self.main_window, "json generator")
         )
-        self.main_window.clearBtnInTab3.clicked.connect(self.clear_folder_handler)
+        self.main_window.clearBtnInTab3.clicked.connect(
+            lambda: clear_folder_handler(self.main_window, "json generator")
+        )
 
         # Select excel files
         self.main_window.browseExcelBtnInTab3.clicked.connect(self.select_excel_handler)
@@ -152,31 +156,6 @@ class JsonGeneratorTab:
             self.main_window.expComboB.setCurrentIndex(
                 self.main_window.expComboB.findData(self.main_window.selected_exp_code)
             )
-
-    def select_folder_handler(self):
-        self.main_window.selected_gen_json_folder.clear()
-
-        if select_paths(
-            self.main_window,
-            self.main_window.selected_gen_json_folder,
-            mode="folder",
-            multi=False,
-        ):
-            update_display(
-                line_edit=self.main_window.folderLineEditInTab3,
-                items=self.main_window.selected_gen_json_folder,
-            )
-            self.main_window.statusbar.showMessage("Added 1 folder.")
-
-    def clear_folder_handler(self):
-        if clear_paths(
-            self.main_window, self.main_window.selected_gen_json_folder, confirm=False
-        ):
-            update_display(
-                line_edit=self.main_window.folderLineEditInTab3,
-                items=self.main_window.selected_gen_json_folder,
-            )
-            self.main_window.statusbar.showMessage("Excel File cleared")
 
     def select_excel_handler(self):
         added = select_paths(

@@ -18,6 +18,9 @@ from src.gui.utils import (
     on_finished,
     on_error,
     set_controls_enabled,
+    selected_folders_handler,
+    clear_folders_handler,
+    remove_selected_folder_handler,
 )
 
 
@@ -73,13 +76,15 @@ class ImageRenamerTab:
 
         # Select folders
         self.main_window.browseFolderBtnInTab2.clicked.connect(
-            self.select_folders_handler
+            lambda: selected_folders_handler(
+                self.main_window, "image renamer", mode="folder", multi=True
+            )
         )
         self.main_window.clearFoldersBtnInTab2.clicked.connect(
-            self.clear_folders_handler
+            lambda: clear_folders_handler(self.main_window, "image renamer")
         )
         self.main_window.removeSelectedBtnInTab2.clicked.connect(
-            self.remove_selected_handler
+            lambda: remove_selected_folder_handler(self.main_window, "image renamer")
         )
 
         # Select file
@@ -88,47 +93,6 @@ class ImageRenamerTab:
         self.main_window.startRenameBtn.clicked.connect(
             lambda: self.run_renamer(dry_run=None)
         )
-
-    def select_folders_handler(self):
-        added = select_paths(
-            self.main_window,
-            self.main_window.selected_rename_folders,
-            mode="folder",
-            multi=True,
-        )
-        update_display(
-            list_widget=self.main_window.folderListWidget,
-            line_edit=self.main_window.folderLineEdit,
-            count_label=self.main_window.countLabel,
-            items=self.main_window.selected_rename_folders,
-        )
-        if added > 0:
-            self.main_window.statusbar.showMessage(
-                f"Added {added} folder(s). Total: {len(self.main_window.selected_rename_folders)}"
-            )
-
-    def clear_folders_handler(self):
-        if clear_paths(self.main_window, self.main_window.selected_rename_folders):
-            update_display(
-                list_widget=self.main_window.folderListWidget,
-                line_edit=self.main_window.folderLineEdit,
-                count_label=self.main_window.countLabel,
-                items=self.main_window.selected_rename_folders,
-            )
-            self.main_window.statusbar.showMessage("All folders cleared")
-
-    def remove_selected_handler(self):
-        removed = remove_selected_paths(
-            self.main_window.folderListWidget, self.main_window.selected_rename_folders
-        )
-        if removed > 0:
-            update_display(
-                list_widget=self.main_window.folderListWidget,
-                line_edit=self.main_window.folderLineEdit,
-                count_label=self.main_window.countLabel,
-                items=self.main_window.selected_rename_folders,
-            )
-            self.main_window.statusbar.showMessage(f"Removed {removed} folder(s)")
 
     def select_file_handler(self):
         self.main_window.selected_rename_file.clear()
