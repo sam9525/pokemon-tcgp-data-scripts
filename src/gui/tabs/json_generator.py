@@ -19,8 +19,10 @@ from src.gui.utils import (
     on_finished,
     on_error,
     set_controls_enabled,
-    select_folder_handler,
-    clear_folder_handler,
+    select_folder_file_handler,
+    clear_folder_file_handler,
+    selected_folders_files_handler,
+    clear_folders_files_handler,
 )
 
 
@@ -128,17 +130,33 @@ class JsonGeneratorTab:
 
         # Select folder
         self.main_window.browseFolderBtnInTab3.clicked.connect(
-            lambda: select_folder_handler(self.main_window, "json generator")
+            lambda: select_folder_file_handler(
+                self.main_window, "json generator", mode="folder"
+            )
         )
         self.main_window.clearBtnInTab3.clicked.connect(
-            lambda: clear_folder_handler(self.main_window, "json generator")
+            lambda: clear_folder_file_handler(self.main_window, "json generator")
         )
 
         # Select excel files
-        self.main_window.browseExcelBtnInTab3.clicked.connect(self.select_excel_handler)
-        self.main_window.clearExcelBtnInTab3.clicked.connect(self.clear_excel_handler)
+        self.main_window.browseExcelBtnInTab3.clicked.connect(
+            lambda: selected_folders_files_handler(
+                self.main_window,
+                "json generator",
+                mode="file",
+                multi=True,
+                file_filter=f"Excel Files ({';'.join(SUPPORTED_EXCEL_FORMATS)});;All Files (*)",
+            )
+        )
+        self.main_window.clearExcelBtnInTab3.clicked.connect(
+            lambda: clear_folders_files_handler(
+                self.main_window, "json generator", mode="files"
+            )
+        )
         self.main_window.removeSelectedBtnInTab3.clicked.connect(
-            self.remove_selected_handler
+            lambda: remove_selected_folder_file_handler(
+                self.main_window, "json generator"
+            )
         )
 
         # Start generating
@@ -156,49 +174,6 @@ class JsonGeneratorTab:
             self.main_window.expComboB.setCurrentIndex(
                 self.main_window.expComboB.findData(self.main_window.selected_exp_code)
             )
-
-    def select_excel_handler(self):
-        added = select_paths(
-            self.main_window,
-            self.main_window.selected_gen_json_files,
-            mode="file",
-            multi=True,
-            file_filter=f"Excel Files ({';'.join(SUPPORTED_EXCEL_FORMATS)});;All Files (*)",
-        )
-        update_display(
-            list_widget=self.main_window.excelListWidget,
-            line_edit=self.main_window.filesLineEditInTab3,
-            count_label=self.main_window.countExcelLabel,
-            items=self.main_window.selected_gen_json_files,
-        )
-
-        if added > 0:
-            self.main_window.statusbar.showMessage(
-                f"Added {added} file(s). Total: {len(self.main_window.selected_gen_json_files)}"
-            )
-
-    def clear_excel_handler(self):
-        if clear_paths(self.main_window, self.main_window.selected_gen_json_files):
-            update_display(
-                list_widget=self.main_window.excelListWidget,
-                line_edit=self.main_window.filesLineEditInTab3,
-                count_label=self.main_window.countExcelLabel,
-                items=self.main_window.selected_gen_json_files,
-            )
-            self.main_window.statusbar.showMessage("Excel File cleared")
-
-    def remove_selected_handler(self):
-        removed = remove_selected_paths(
-            self.main_window.excelListWidget, self.main_window.selected_gen_json_files
-        )
-        if removed > 0:
-            update_display(
-                list_widget=self.main_window.excelListWidget,
-                line_edit=self.main_window.filesLineEditInTab3,
-                count_label=self.main_window.countExcelLabel,
-                items=self.main_window.selected_gen_json_files,
-            )
-            self.main_window.statusbar.showMessage(f"Removed {removed} file(s)")
 
     def check_exp_folder_excel_match(self, exp_code):
         # Check if the folder name and expansion code match

@@ -18,9 +18,11 @@ from src.gui.utils import (
     on_finished,
     on_error,
     set_controls_enabled,
-    selected_folders_handler,
-    clear_folders_handler,
-    remove_selected_folder_handler,
+    select_folder_file_handler,
+    clear_folder_file_handler,
+    selected_folders_files_handler,
+    clear_folders_files_handler,
+    remove_selected_folder_file_handler,
 )
 
 
@@ -76,53 +78,36 @@ class ImageRenamerTab:
 
         # Select folders
         self.main_window.browseFolderBtnInTab2.clicked.connect(
-            lambda: selected_folders_handler(
+            lambda: selected_folders_files_handler(
                 self.main_window, "image renamer", mode="folder", multi=True
             )
         )
         self.main_window.clearFoldersBtnInTab2.clicked.connect(
-            lambda: clear_folders_handler(self.main_window, "image renamer")
+            lambda: clear_folders_files_handler(
+                self.main_window, "image renamer", mode="folder"
+            )
         )
         self.main_window.removeSelectedBtnInTab2.clicked.connect(
-            lambda: remove_selected_folder_handler(self.main_window, "image renamer")
+            lambda: remove_selected_folder_file_handler(
+                self.main_window, "image renamer"
+            )
         )
 
         # Select file
-        self.main_window.browseFileBtnInTab2.clicked.connect(self.select_file_handler)
-        self.main_window.clearFileBtnInTab2.clicked.connect(self.clear_file_handler)
+        self.main_window.browseFileBtnInTab2.clicked.connect(
+            lambda: select_folder_file_handler(
+                self.main_window,
+                "image renamer",
+                mode="file",
+                file_filter=f"Excel Files ({';'.join(SUPPORTED_EXCEL_FORMATS)});;All Files (*)",
+            )
+        )
+        self.main_window.clearFileBtnInTab2.clicked.connect(
+            lambda: clear_folder_file_handler(self.main_window, "image renamer")
+        )
         self.main_window.startRenameBtn.clicked.connect(
             lambda: self.run_renamer(dry_run=None)
         )
-
-    def select_file_handler(self):
-        self.main_window.selected_rename_file.clear()
-
-        select_paths(
-            self.main_window,
-            self.main_window.selected_rename_file,
-            mode="file",
-            multi=False,
-            file_filter=f"Excel Files ({';'.join(SUPPORTED_EXCEL_FORMATS)});;All Files (*)",
-        )
-
-        update_display(
-            line_edit=self.main_window.fileLineEdit,
-            items=self.main_window.selected_rename_file,
-        )
-        if self.main_window.selected_rename_file:
-            self.main_window.statusbar.showMessage(
-                f"Selected file: {self.main_window.selected_rename_file[0]}"
-            )
-
-    def clear_file_handler(self):
-        if clear_paths(
-            self.main_window, self.main_window.selected_rename_file, confirm=False
-        ):
-            update_display(
-                line_edit=self.main_window.fileLineEdit,
-                items=self.main_window.selected_rename_file,
-            )
-            self.main_window.statusbar.showMessage("Excel File cleared")
 
     def check_folder_excel_match(self, folders, excel_path):
         # Check if the folder name and excel file name match

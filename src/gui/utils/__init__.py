@@ -6,12 +6,12 @@ from .progress_utils import (
     on_error,
     set_controls_enabled,
 )
-from .folder_handler import (
-    select_folder_handler,
-    clear_folder_handler,
-    selected_folders_handler,
-    clear_folders_handler,
-    remove_selected_folder_handler,
+from .folder_file_handler import (
+    select_folder_file_handler,
+    clear_folder_file_handler,
+    selected_folders_files_handler,
+    clear_folders_files_handler,
+    remove_selected_folder_file_handler,
 )
 
 __all__ = [
@@ -21,9 +21,9 @@ __all__ = [
     "on_finished",
     "on_error",
     "set_controls_enabled",
-    "select_folder_handler",
-    "clear_folder_handler",
-    "selected_folders_handler",
-    "clear_folders_handler",
-    "remove_selected_folder_handler",
+    "select_folder_file_handler",
+    "clear_folder_file_handler",
+    "selected_folders_files_handler",
+    "clear_folders_files_handler",
+    "remove_selected_folder_file_handler",
 ]

@@ -57,3 +57,16 @@ SELECTED_FOLDER_CONFIGS = {
         "count_label": "countLabelInTab4",
     },
 }
+
+SELECTED_FILE_CONFIGS = {
+    "image renamer": {
+        "file": "selected_rename_file",
+        "file_line": "fileLineEdit",
+    },
+    "json generator": {
+        "files": "selected_gen_json_files",
+        "files_list": "excelListWidget",
+        "files_line": "filesLineEditInTab3",
+        "count_label": "countExcelLabel",
+    },
+}

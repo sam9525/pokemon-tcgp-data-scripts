@@ -15,9 +15,9 @@ from src.gui.utils import (
     on_finished,
     on_error,
     set_controls_enabled,
-    selected_folders_handler,
-    clear_folders_handler,
-    remove_selected_folder_handler,
+    selected_folders_files_handler,
+    clear_folders_files_handler,
+    remove_selected_folder_file_handler,
 )
 
 
@@ -64,15 +64,19 @@ class GenCardNameTab:
     def setup_ui(self):
         # Select folder
         self.main_window.browseFolderBtnInTab4.clicked.connect(
-            lambda: selected_folders_handler(
+            lambda: selected_folders_files_handler(
                 self.main_window, "gen card name", mode="folder", multi=True
             )
         )
         self.main_window.clearFoldersBtnInTab4.clicked.connect(
-            lambda: clear_folders_handler(self.main_window, "gen card name")
+            lambda: clear_folders_files_handler(
+                self.main_window, "gen card name", mode="folder"
+            )
         )
         self.main_window.removeSelectedBtnInTab4.clicked.connect(
-            lambda: remove_selected_folder_handler(self.main_window, "gen card name")
+            lambda: remove_selected_folder_file_handler(
+                self.main_window, "gen card name"
+            )
         )
 
         # Start generating

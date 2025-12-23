@@ -77,6 +77,11 @@ class TestTCGPToolGUI(unittest.TestCase):
             ]
         )
 
+        # Patch select_paths in folder_handler to avoid opening dialogs
+        self.select_paths_patch = patch("src.gui.utils.folder_handler.select_paths")
+        self.mock_select_paths = self.select_paths_patch.start()
+        self.patches.append(self.select_paths_patch)
+
         # Create the GUI instance
         self.window = TCGPToolGUI()
         self.window.show()
@@ -257,6 +262,86 @@ class TestTCGPToolGUI(unittest.TestCase):
 
         # Check controls are still enabled
         self.assertTrue(self.window.startGenBtn.isEnabled())
+
+    def test_renamer_tab_folder_selection(self):
+        """Verify folder selection in renamer tab."""
+        # Configure mock to simulate user selecting a folder
+        test_folder = "/path/to/selected/folder"
+
+        def side_effect(
+            parent, current_paths, mode="folder", multi=True, file_filter=""
+        ):
+            current_paths.append(test_folder)
+            return 1
+
+        self.mock_select_paths.side_effect = side_effect
+
+        # Click browse button
+        self.window.browseFolderBtnInTab2.click()
+
+        # Verify select_paths was called
+        self.mock_select_paths.assert_called()
+
+        # Verify folder was added (logic inside folder_handler handles UI update, but we can check state)
+        self.assertIn(test_folder, self.window.selected_rename_folders)
+        self.assertEqual(self.window.folderListWidget.count(), 1)
+        self.assertEqual(self.window.folderListWidget.item(0).text(), test_folder)
+
+    def test_renamer_tab_file_selection(self):
+        """Verify file selection in renamer tab."""
+        # Configure mock to simulate user selecting a file
+        test_file = "/path/to/selected/file.xlsx"
+
+        def side_effect(
+            parent, current_paths, mode="file", multi=False, file_filter=""
+        ):
+            current_paths.append(test_file)
+            return 1
+
+        self.mock_select_paths.side_effect = side_effect
+
+        # Click browse button
+        self.window.browseFileBtnInTab2.click()
+
+        # Verify select_paths was called
+        self.mock_select_paths.assert_called()
+
+        self.assertEqual(self.window.fileLineEdit.text(), test_file)
+
+    def test_json_generator_tab_folder_selection(self):
+        """Verify folder selection in json generator tab."""
+        test_folder = "/path/to/json/folder"
+
+        def side_effect(
+            parent, current_paths, mode="folder", multi=True, file_filter=""
+        ):
+            current_paths.append(test_folder)
+            return 1
+
+        self.mock_select_paths.side_effect = side_effect
+
+        self.window.browseFolderBtnInTab3.click()
+
+        self.mock_select_paths.assert_called()
+        self.assertIn(test_folder, self.window.selected_gen_json_folder)
+        self.assertEqual(self.window.folderLineEditInTab3.text(), test_folder)
+
+    def test_json_generator_tab_excel_selection(self):
+        """Verify excel file selection in json generator tab."""
+        test_file = "/path/to/excel/file.xlsx"
+
+        def side_effect(parent, current_paths, mode="file", multi=True, file_filter=""):
+            current_paths.append(test_file)
+            return 1
+
+        self.mock_select_paths.side_effect = side_effect
+
+        self.window.browseExcelBtnInTab3.click()
+
+        self.mock_select_paths.assert_called()
+        self.assertIn(test_file, self.window.selected_gen_json_files)
+        self.assertEqual(self.window.excelListWidget.count(), 1)
+        self.assertEqual(self.window.excelListWidget.item(0).text(), test_file)
 
     def tearDown(self):
         self.window.close()
