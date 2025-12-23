@@ -1,4 +1,5 @@
 import os
+import sys
 import argparse
 from dotenv import load_dotenv
 import json
@@ -23,7 +24,7 @@ def process_image(args):
     return analyze_card_name(image_path, lang, worker_client)
 
 
-def gen_card_name_list(image_folder, lang, pbar=None, folders_len=0):
+def gen_card_name_list(image_folder, lang, pbar=None, folders_len=1):
     # Initialize Reader
     log("Initializing genai...", pbar)
     load_dotenv()
@@ -31,11 +32,20 @@ def gen_card_name_list(image_folder, lang, pbar=None, folders_len=0):
 
     log("genai initialized", pbar)
 
+    if not api_key:
+        log("Error: GOOGLE_API_KEY not found in environment variables.", pbar)
+        return []
+
     # Load existing data first to filter processed images
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    json_output_dir = os.path.join(os.path.dirname(script_dir), "json")
+    # Handle PyInstaller bundle path
+    if getattr(sys, "frozen", False):
+        application_path = os.path.dirname(sys.executable)
+    else:
+        application_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    json_output_dir = os.path.join(application_path, "json")
     os.makedirs(json_output_dir, exist_ok=True)
-    output_file = os.path.join(json_output_dir, f"card_names.json")
+    output_file = os.path.join(json_output_dir, "card_names.json")
 
     existing_data = {}
     if os.path.exists(output_file):
@@ -127,7 +137,7 @@ def main():
 
     args = parser.parse_args()
 
-    results_list = gen_card_name_list(args.image_folder, args.lang)
+    results_list = gen_card_name_list(args.image_folder, args.lang, folders_len=1)
 
 
 if __name__ == "__main__":
