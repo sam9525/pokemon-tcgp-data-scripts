@@ -12,6 +12,13 @@ from scripts import rename_images
 from src.utils import dry_run_log
 from src.config import SUPPORTED_EXCEL_FORMATS
 from src.utils import extract_folder_prefix, extract_excel_prefix
+from src.gui.utils import (
+    update_progress,
+    update_status,
+    on_finished,
+    on_error,
+    set_controls_enabled,
+)
 
 
 class RenamerWorker(QThread):
@@ -153,66 +160,6 @@ class ImageRenamerTab:
             )
             self.main_window.statusbar.showMessage("Excel File cleared")
 
-    def update_progress(self, n):
-        self.current_progress_value += n
-        self.main_window.renamerProgressBar.setValue(int(self.current_progress_value))
-
-    def update_status(self, message):
-        self.main_window.statusbar.showMessage(message)
-
-    def show_dry_run_log_dialog(self, messages):
-        dialog = QDialog(self.main_window)
-        dialog.setWindowTitle("Dry Run Log")
-        dialog.resize(800, 600)
-
-        layout = QVBoxLayout(dialog)
-        text_edit = QTextEdit(dialog)
-        text_edit.setReadOnly(True)
-        text_edit.setText("\n".join(messages))
-        layout.addWidget(text_edit)
-
-        # Confirm button
-        confirm_button = QPushButton("Confirm", dialog)
-
-        def on_confirm():
-            dialog.accept()
-            self.run_renamer(dry_run=False)
-
-        confirm_button.clicked.connect(on_confirm)
-        layout.addWidget(confirm_button)
-
-        # Close button
-        close_button = QPushButton("Close", dialog)
-        close_button.clicked.connect(dialog.reject)
-        layout.addWidget(close_button)
-
-        dialog.exec()
-
-    def on_renamer_finished(self):
-        self.set_controls_enabled(True)
-        self.main_window.renamerProgressBar.setValue(100)
-
-        if self.worker.dry_run:
-            self.main_window.statusbar.showMessage("Dry run completed.")
-            self.show_dry_run_log_dialog(self.worker.dry_run_log)
-        else:
-            self.main_window.statusbar.showMessage("Renaming process finished.")
-            QMessageBox.information(
-                self.main_window, "Info", "Renaming process finished!"
-            )
-
-    def set_controls_enabled(self, enabled: bool):
-        self.main_window.browseFolderBtnInTab2.setEnabled(enabled)
-        self.main_window.clearFoldersBtnInTab2.setEnabled(enabled)
-        self.main_window.removeSelectedBtnInTab2.setEnabled(enabled)
-        self.main_window.browseFileBtnInTab2.setEnabled(enabled)
-        self.main_window.clearFileBtnInTab2.setEnabled(enabled)
-        self.main_window.startRenameBtn.setEnabled(enabled)
-
-    def on_renamer_error(self, err):
-        self.set_controls_enabled(True)
-        self.main_window.statusbar.showMessage(f"Error: {err}")
-
     def check_folder_excel_match(self, folders, excel_path):
         # Check if the folder name and excel file name match
         # Match the name before _
@@ -230,7 +177,7 @@ class ImageRenamerTab:
                 unmatched_paths.append(folder)
 
         if unmatched_paths:
-            self.set_controls_enabled(True)
+            set_controls_enabled(self.main_window, "image renamer", True)
             unmatched_list_str = "\n".join(unmatched_paths)
             QMessageBox.warning(
                 self.main_window,
@@ -243,12 +190,12 @@ class ImageRenamerTab:
 
     def run_renamer(self, dry_run=None):
         if not self.main_window.selected_rename_folders:
-            self.set_controls_enabled(True)
+            set_controls_enabled(self.main_window, "image renamer", True)
             QMessageBox.warning(self.main_window, "Input Error", "No folders selected.")
             return
 
         if not self.main_window.selected_rename_file:
-            self.set_controls_enabled(True)
+            set_controls_enabled(self.main_window, "image renamer", True)
             QMessageBox.warning(
                 self.main_window, "Input Error", "No Excel file selected."
             )
@@ -265,7 +212,7 @@ class ImageRenamerTab:
             return
 
         # Set to disabled
-        self.set_controls_enabled(False)
+        set_controls_enabled(self.main_window, "image renamer", False)
 
         if dry_run is not None:
             isDryRun = dry_run
@@ -276,10 +223,22 @@ class ImageRenamerTab:
         self.worker = RenamerWorker(folders, excel_path, isDryRun)
 
         # Connect signals
-        self.worker.progress.connect(self.update_progress)
-        self.worker.log.connect(self.update_status)
-        self.worker.finished.connect(self.on_renamer_finished)
-        self.worker.error.connect(self.on_renamer_error)
+        self.worker.progress.connect(
+            lambda n: update_progress(self.main_window, n, "renamerProgressBar")
+        )
+        self.worker.log.connect(lambda msg: update_status(self.main_window, msg))
+        self.worker.finished.connect(
+            lambda: on_finished(
+                self.main_window,
+                tab="image renamer",
+                dry_run=self.worker.dry_run,
+                dry_run_log=self.worker.dry_run_log,
+                on_confirm=lambda: self.run_renamer(dry_run=False),
+            )
+        )
+        self.worker.error.connect(
+            lambda: on_error(self.main_window, tab="image renamer")
+        )
 
         # Reset UI
         self.main_window.renamerProgressBar.setValue(0)

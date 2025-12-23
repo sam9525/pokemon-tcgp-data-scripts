@@ -9,6 +9,13 @@ from src.services import (
     clear_paths,
 )
 from scripts import gen_card_name_list
+from src.gui.utils import (
+    update_progress,
+    update_status,
+    on_finished,
+    on_error,
+    set_controls_enabled,
+)
 
 
 class GenCardNameWorker(QThread):
@@ -119,43 +126,22 @@ class GenCardNameTab:
         self.main_window.selected_lang_name = combobox.currentText()
         self.main_window.selected_lang_code = combobox.itemData(currentIndex)
 
-    def update_progress(self, n):
-        self.current_progress_value += n
-        self.main_window.cardNameProgressBar.setValue(int(self.current_progress_value))
-
-    def update_status(self, message):
-        self.main_window.statusbar.showMessage(message)
-
-    def on_finished(self):
-        self.set_controls_enabled(True)
-        self.main_window.cardNameProgressBar.setValue(100)
-
-        self.main_window.statusbar.showMessage("Generating process finished.")
-        QMessageBox.information(
-            self.main_window, "Info", "Generating process finished!"
-        )
-
-    def on_error(self, error):
-        self.set_controls_enabled(True)
-        self.main_window.statusbar.showMessage(error)
-        QMessageBox.critical(self.main_window, "Error", error)
-
-    def set_controls_enabled(self, enabled: bool):
-        self.main_window.browseFolderBtnInTab4.setEnabled(enabled)
-        self.main_window.clearFoldersBtnInTab4.setEnabled(enabled)
-        self.main_window.removeSelectedBtnInTab4.setEnabled(enabled)
-        self.main_window.startGenCardNameBtn.setEnabled(enabled)
-
     def run_gen_card_name(self):
-        self.set_controls_enabled(False)
+        set_controls_enabled(self.main_window, "gen card name", False)
 
         self.worker = GenCardNameWorker(self.main_window.selected_gen_card_name_folder)
 
         # Connect signals
-        self.worker.progress.connect(self.update_progress)
-        self.worker.log.connect(self.update_status)
-        self.worker.finished.connect(self.on_finished)
-        self.worker.error.connect(self.on_error)
+        self.worker.progress.connect(
+            lambda n: update_progress(self.main_window, n, "cardNameProgressBar")
+        )
+        self.worker.log.connect(lambda msg: update_status(self.main_window, msg))
+        self.worker.finished.connect(
+            lambda: on_finished(self.main_window, tab="gen card name")
+        )
+        self.worker.error.connect(
+            lambda: on_error(self.main_window, tab="gen card name")
+        )
 
         # Reset UI
         self.main_window.cardNameProgressBar.setValue(0)

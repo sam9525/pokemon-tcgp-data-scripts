@@ -11,8 +11,15 @@ from src.services import (
     clear_paths,
 )
 from scripts import generate_json, generate_special_card_data
-from src.gui.utils import check_file_exist
 from src.utils import extract_folder_prefix, extract_excel_prefix
+from src.gui.utils import check_file_exist
+from src.gui.utils import (
+    update_progress,
+    update_status,
+    on_finished,
+    on_error,
+    set_controls_enabled,
+)
 
 
 class JsonGeneratorWorker(QThread):
@@ -214,26 +221,6 @@ class JsonGeneratorTab:
             )
             self.main_window.statusbar.showMessage(f"Removed {removed} file(s)")
 
-    def update_progress(self, n):
-        self.current_progress_value += n
-        self.main_window.genJsonProgressBar.setValue(int(self.current_progress_value))
-
-    def update_status(self, message):
-        self.main_window.statusbar.showMessage(message)
-
-    def on_json_generator_finished(self):
-        self.set_controls_enabled(True)
-        self.main_window.genJsonProgressBar.setValue(100)
-
-        self.main_window.statusbar.showMessage("Generating process finished.")
-        QMessageBox.information(
-            self.main_window, "Info", "Generating process finished!"
-        )
-
-    def on_json_generator_error(self, err):
-        self.set_controls_enabled(True)
-        self.main_window.statusbar.showMessage(f"Error: {err}")
-
     def check_exp_folder_excel_match(self, exp_code):
         # Check if the folder name and expansion code match
         unmatched_paths = []
@@ -254,7 +241,7 @@ class JsonGeneratorTab:
                 unmatched_paths.append(excel_path)
 
         if unmatched_paths:
-            self.set_controls_enabled(True)
+            set_controls_enabled(self.main_window, "json generator", True)
             unmatched_list_str = "\n".join(unmatched_paths)
             QMessageBox.warning(
                 self.main_window,
@@ -265,23 +252,14 @@ class JsonGeneratorTab:
 
         return True
 
-    def set_controls_enabled(self, enabled: bool):
-        self.main_window.expansionComboBox.setEnabled(enabled)
-        self.main_window.browseFolderBtnInTab3.setEnabled(enabled)
-        self.main_window.clearBtnInTab3.setEnabled(enabled)
-        self.main_window.browseExcelBtnInTab3.setEnabled(enabled)
-        self.main_window.clearExcelBtnInTab3.setEnabled(enabled)
-        self.main_window.removeSelectedBtnInTab3.setEnabled(enabled)
-        self.main_window.startGenBtn.setEnabled(enabled)
-
     def run_gen_json(self):
         if not self.main_window.selected_gen_json_folder:
-            self.set_controls_enabled(True)
+            set_controls_enabled(self.main_window, "json generator", True)
             QMessageBox.warning(self.main_window, "Input Error", "No folder selected.")
             return
 
         if not self.main_window.selected_gen_json_files:
-            self.set_controls_enabled(True)
+            set_controls_enabled(self.main_window, "json generator", True)
             QMessageBox.warning(
                 self.main_window, "Input Error", "No Excel file selected."
             )
@@ -297,7 +275,7 @@ class JsonGeneratorTab:
             return
 
         # Set to disabled
-        self.set_controls_enabled(False)
+        set_controls_enabled(self.main_window, "json generator", False)
 
         self.worker = JsonGeneratorWorker(
             self.main_window.selected_exp_code,
@@ -306,10 +284,16 @@ class JsonGeneratorTab:
         )
 
         # Connect signals
-        self.worker.progress.connect(self.update_progress)
-        self.worker.log.connect(self.update_status)
-        self.worker.finished.connect(self.on_json_generator_finished)
-        self.worker.error.connect(self.on_json_generator_error)
+        self.worker.progress.connect(
+            lambda n: update_progress(self.main_window, n, "genJsonProgressBar")
+        )
+        self.worker.log.connect(lambda msg: update_status(self.main_window, msg))
+        self.worker.finished.connect(
+            lambda: on_finished(self.main_window, tab="json generator")
+        )
+        self.worker.error.connect(
+            lambda: on_error(self.main_window, tab="json generator")
+        )
 
         # Reset UI
         self.main_window.genJsonProgressBar.setValue(0)
@@ -320,7 +304,7 @@ class JsonGeneratorTab:
             self.main_window, self.main_window.selected_exp_code, mode="json"
         )
         if not files_exist:
-            self.set_controls_enabled(True)
+            set_controls_enabled(self.main_window, "json generator", True)
             return
 
         # Start thread
