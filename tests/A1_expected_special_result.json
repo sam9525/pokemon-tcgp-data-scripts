@@ -5,7 +5,7 @@
     "fightEnergy": "none",
     "weakness": "none",
     "booster_pack": [
-      "Pikachu"
+      "pikachu"
     ]
   },
   "KOURANOKASEKI": {
@@ -14,7 +14,7 @@
     "fightEnergy": "none",
     "weakness": "none",
     "booster_pack": [
-      "Charizard"
+      "charizard"
     ]
   },
   "HIMITSUNOKOHAKU": {
@@ -23,7 +23,7 @@
     "fightEnergy": "none",
     "weakness": "none",
     "booster_pack": [
-      "Mewtwo"
+      "mewtwo"
     ]
   },
   "ERIKA": {
@@ -32,7 +32,7 @@
     "fightEnergy": "none",
     "weakness": "none",
     "booster_pack": [
-      "Charizard"
+      "charizard"
     ]
   },
   "KASUMI": {
@@ -41,7 +41,7 @@
     "fightEnergy": "none",
     "weakness": "none",
     "booster_pack": [
-      "Pikachu"
+      "pikachu"
     ]
   },
   "KATSURA": {
@@ -50,7 +50,7 @@
     "fightEnergy": "none",
     "weakness": "none",
     "booster_pack": [
-      "Charizard"
+      "charizard"
     ]
   },
   "KYOU": {
@@ -59,7 +59,7 @@
     "fightEnergy": "none",
     "weakness": "none",
     "booster_pack": [
-      "Mewtwo"
+      "mewtwo"
     ]
   },
   "SAKAKI": {
@@ -68,7 +68,7 @@
     "fightEnergy": "none",
     "weakness": "none",
     "booster_pack": [
-      "Mewtwo"
+      "mewtwo"
     ]
   },
   "TAKESHI": {
@@ -77,7 +77,7 @@
     "fightEnergy": "none",
     "weakness": "none",
     "booster_pack": [
-      "Pikachu"
+      "pikachu"
     ]
   },
   "NATSUME": {
@@ -86,7 +86,7 @@
     "fightEnergy": "none",
     "weakness": "none",
     "booster_pack": [
-      "Charizard"
+      "charizard"
     ]
   },
   "MATISSE": {
@@ -95,7 +95,7 @@
     "fightEnergy": "none",
     "weakness": "none",
     "booster_pack": [
-      "Pikachu"
+      "pikachu"
     ]
   },
   "KIZUGUSURI": {
@@ -173,57 +173,57 @@
   },
   "000080": {
     "boosterPack": [
-      "Mewtwo",
-      "Pikachu"
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000090": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo"
+      "charizard",
+      "mewtwo"
     ]
   },
   "000120": {
     "boosterPack": [
-      "Charizard",
-      "Pikachu"
+      "charizard",
+      "pikachu"
     ]
   },
   "000140": {
     "boosterPack": [
-      "Mewtwo",
-      "Pikachu"
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000150": {
     "boosterPack": [
-      "Mewtwo",
-      "Pikachu"
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000160": {
     "boosterPack": [
-      "Mewtwo",
-      "Pikachu"
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000170": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo"
+      "charizard",
+      "mewtwo"
     ]
   },
   "000180": {
     "boosterPack": [
-      "Charizard",
-      "Pikachu"
+      "charizard",
+      "pikachu"
     ]
   },
   "000260": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000270": {
@@ -231,9 +231,9 @@
       "colorless"
     ],
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000280": {
@@ -241,23 +241,23 @@
       "colorless"
     ],
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000290": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000300": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000310": {
@@ -277,16 +277,16 @@
   },
   "000420": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000430": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000460": {
@@ -297,9 +297,9 @@
   },
   "000480": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000510": {
@@ -307,30 +307,30 @@
       "colorless"
     ],
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000520": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000570": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000580": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000590": {
@@ -380,9 +380,9 @@
   },
   "000910": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000920": {
@@ -391,17 +391,17 @@
       "colorless"
     ],
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000930": {
     "weakness": "metal",
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001030": {
@@ -412,23 +412,23 @@
   },
   "001050": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001060": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001100": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001110": {
@@ -436,16 +436,16 @@
       "colorless"
     ],
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001120": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001130": {
@@ -461,16 +461,16 @@
   },
   "001180": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001190": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001300": {
@@ -483,44 +483,44 @@
       "colorless"
     ],
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001340": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001350": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001360": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001370": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001380": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001410": {
@@ -567,31 +567,31 @@
   "001620": {
     "weakness": "psychic",
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001630": {
     "weakness": "psychic",
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001640": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001650": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001720": {
@@ -606,16 +606,16 @@
   },
   "001790": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001800": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001830": {
@@ -652,16 +652,16 @@
   },
   "001890": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001900": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001910": {
@@ -673,32 +673,32 @@
   "001980": {
     "weakness": "lightning",
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001990": {
     "weakness": "lightning",
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "002000": {
     "weakness": "lightning",
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "002060": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "002080": {
@@ -706,58 +706,58 @@
   },
   "002100": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "002110": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "002120": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "002130": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000360": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000960": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "001290": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "000940": {
     "boosterPack": [
-      "Charizard",
-      "Mewtwo",
-      "Pikachu"
+      "charizard",
+      "mewtwo",
+      "pikachu"
     ]
   },
   "002770": {

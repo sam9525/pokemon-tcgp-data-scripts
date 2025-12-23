@@ -19,6 +19,11 @@ mock_playwright = MagicMock()
 sys.modules["playwright"] = mock_playwright
 sys.modules["playwright.async_api"] = mock_playwright
 
+# Mock google.genai to avoid dependency issues
+mock_google = MagicMock()
+sys.modules["google"] = mock_google
+sys.modules["google.genai"] = mock_google
+
 from tcgp_tool_gui import TCGPToolGUI
 from PyQt6.QtWidgets import QMessageBox
 
@@ -148,7 +153,7 @@ class TestTCGPToolGUI(unittest.TestCase):
             "PyQt6.QtWidgets.QMessageBox.question",
             return_value=QMessageBox.StandardButton.Yes,
         ):
-            self.window.tab2.clear_folders_handler()
+            self.window.clearFoldersBtnInTab2.click()
 
         # Verify cleared
         self.assertEqual(self.window.selected_rename_folders, [])
