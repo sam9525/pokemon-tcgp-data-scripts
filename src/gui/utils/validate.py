@@ -10,7 +10,7 @@ def check_file_exist(main_window, selected_exp_code, mode):
 
         # Message
         layout = QVBoxLayout(dialog)
-        message_label = QLabel("Set code excel file does exist!", dialog)
+        message_label = QLabel("Excel file already exists. Do you want to replace it?", dialog)
         layout.addWidget(message_label)
 
         # Buttons
@@ -28,7 +28,8 @@ def check_file_exist(main_window, selected_exp_code, mode):
         dialog.exec()
 
         if dialog.result() == QDialog.DialogCode.Accepted:
-            return True
+            os.remove(f"lists/{selected_exp_code}.xlsx")
+            return True  # File deleted, proceed with crawl
         else:
             return False
 
@@ -44,7 +45,7 @@ def check_file_exist(main_window, selected_exp_code, mode):
 
         # Message
         layout = QVBoxLayout(dialog)
-        message_label = QLabel("JSON files do exist!", dialog)
+        message_label = QLabel("JSON files already exist. Do you want to replace them?", dialog)
         layout.addWidget(message_label)
 
         # Buttons
@@ -62,6 +63,12 @@ def check_file_exist(main_window, selected_exp_code, mode):
         dialog.exec()
 
         if dialog.result() == QDialog.DialogCode.Accepted:
+            if os.path.exists(f"json/{selected_exp_code}.json"):
+                os.remove(f"json/{selected_exp_code}.json")
+            if os.path.exists(f"json/{selected_exp_code}_duplicates.json"):
+                os.remove(f"json/{selected_exp_code}_duplicates.json")
+            if os.path.exists(f"json/{selected_exp_code}_special.json"):
+                os.remove(f"json/{selected_exp_code}_special.json")
             return True
         else:
             return False
