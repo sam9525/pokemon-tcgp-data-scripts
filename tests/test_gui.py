@@ -77,8 +77,8 @@ class TestTCGPToolGUI(unittest.TestCase):
             ]
         )
 
-        # Patch select_paths in folder_handler to avoid opening dialogs
-        self.select_paths_patch = patch("src.gui.utils.folder_handler.select_paths")
+        # Patch select_paths in folder_file_handler to avoid opening dialogs
+        self.select_paths_patch = patch("src.gui.utils.folder_file_handler.select_paths")
         self.mock_select_paths = self.select_paths_patch.start()
         self.patches.append(self.select_paths_patch)
 
@@ -262,6 +262,69 @@ class TestTCGPToolGUI(unittest.TestCase):
 
         # Check controls are still enabled
         self.assertTrue(self.window.startGenBtn.isEnabled())
+
+    def test_renamer_tab_file_clearing(self):
+        """Verify clear file handler in renamer tab."""
+        # Add a file first
+        self.window.selected_rename_file.append("/path/to/file.xlsx")
+
+        with patch("PyQt6.QtWidgets.QMessageBox.question", return_value=QMessageBox.StandardButton.Yes):
+            self.window.clearFileBtnInTab2.click()
+
+        self.assertEqual(self.window.selected_rename_file, [])
+        self.assertEqual(self.window.fileLineEdit.text(), "")
+
+    def test_renamer_tab_remove_selected_folder(self):
+        """Verify remove selected folder handler in renamer tab."""
+        # Add folders
+        self.window.selected_rename_folders.append("/path/to/folder1")
+        self.window.selected_rename_folders.append("/path/to/folder2")
+
+        # Select first item
+        self.window.folderListWidget.addItem("/path/to/folder1")
+        self.window.folderListWidget.addItem("/path/to/folder2")
+        self.window.folderListWidget.setCurrentRow(0)
+
+        self.window.removeSelectedBtnInTab2.click()
+
+        # Verify one removed
+        self.assertEqual(len(self.window.selected_rename_folders), 1)
+        self.assertNotIn("/path/to/folder1", self.window.selected_rename_folders)
+
+    def test_json_generator_tab_folder_clearing(self):
+        """Verify clear folder handler in json generator tab."""
+        self.window.selected_gen_json_folder.append("/path/to/folder")
+
+        with patch("PyQt6.QtWidgets.QMessageBox.question", return_value=QMessageBox.StandardButton.Yes):
+            self.window.clearBtnInTab3.click()
+
+        self.assertEqual(self.window.selected_gen_json_folder, [])
+        self.assertEqual(self.window.folderLineEditInTab3.text(), "")
+
+    def test_json_generator_tab_excel_clearing(self):
+        """Verify clear excel files handler in json generator tab."""
+        self.window.selected_gen_json_files.append("/path/to/excel1.xlsx")
+        self.window.selected_gen_json_files.append("/path/to/excel2.xlsx")
+
+        with patch("PyQt6.QtWidgets.QMessageBox.question", return_value=QMessageBox.StandardButton.Yes):
+            self.window.clearExcelBtnInTab3.click()
+
+        self.assertEqual(self.window.selected_gen_json_files, [])
+        self.assertEqual(self.window.excelListWidget.count(), 0)
+
+    def test_json_generator_tab_remove_selected_file(self):
+        """Verify remove selected excel file handler in json generator tab."""
+        self.window.selected_gen_json_files.append("/path/to/excel1.xlsx")
+        self.window.selected_gen_json_files.append("/path/to/excel2.xlsx")
+
+        self.window.excelListWidget.addItem("/path/to/excel1.xlsx")
+        self.window.excelListWidget.addItem("/path/to/excel2.xlsx")
+        self.window.excelListWidget.setCurrentRow(0)
+
+        self.window.removeSelectedBtnInTab3.click()
+
+        self.assertEqual(len(self.window.selected_gen_json_files), 1)
+        self.assertNotIn("/path/to/excel1.xlsx", self.window.selected_gen_json_files)
 
     def test_renamer_tab_folder_selection(self):
         """Verify folder selection in renamer tab."""

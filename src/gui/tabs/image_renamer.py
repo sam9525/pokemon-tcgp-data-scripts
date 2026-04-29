@@ -89,7 +89,7 @@ class ImageRenamerTab:
         )
         self.main_window.removeSelectedBtnInTab2.clicked.connect(
             lambda: remove_selected_folder_file_handler(
-                self.main_window, "image renamer"
+                self.main_window, "image renamer", mode="folder"
             )
         )
 
@@ -103,7 +103,7 @@ class ImageRenamerTab:
             )
         )
         self.main_window.clearFileBtnInTab2.clicked.connect(
-            lambda: clear_folder_file_handler(self.main_window, "image renamer")
+            lambda: clear_folder_file_handler(self.main_window, "image renamer", mode="file")
         )
         self.main_window.startRenameBtn.clicked.connect(
             lambda: self.run_renamer(dry_run=None)
@@ -122,7 +122,7 @@ class ImageRenamerTab:
         for folder in folders:
             folder_prefix = extract_folder_prefix(folder)
 
-            if folder_prefix != excel_prefix:
+            if folder_prefix.lower() != excel_prefix.lower():
                 unmatched_paths.append(folder)
 
         if unmatched_paths:

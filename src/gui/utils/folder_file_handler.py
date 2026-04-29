@@ -37,15 +37,17 @@ def select_folder_file_handler(main_window, tab, mode, file_filter=""):
         )
 
 
-def clear_folder_file_handler(main_window, tab):
-    config = SELECTED_FOLDER_CONFIGS[tab]
+def clear_folder_file_handler(main_window, tab, mode="folder"):
+    config = (
+        mode == "folder" and SELECTED_FOLDER_CONFIGS[tab] or SELECTED_FILE_CONFIGS[tab]
+    )
 
-    if clear_paths(main_window, getattr(main_window, config["folder"])):
+    if clear_paths(main_window, getattr(main_window, config["folder" if mode == "folder" else "file"])):
         update_display(
-            line_edit=getattr(main_window, config["folder_line"]),
-            items=getattr(main_window, config["folder"]),
+            line_edit=getattr(main_window, config["folder_line" if mode == "folder" else "file_line"]),
+            items=getattr(main_window, config["folder" if mode == "folder" else "file"]),
         )
-        main_window.statusbar.showMessage("Excel File cleared")
+        main_window.statusbar.showMessage("Folder cleared" if mode == "folder" else "Excel File cleared")
 
 
 def selected_folders_files_handler(
@@ -108,18 +110,20 @@ def clear_folders_files_handler(main_window, tab, mode=""):
         main_window.statusbar.showMessage("All cleared")
 
 
-def remove_selected_folder_file_handler(main_window, tab):
-    config = SELECTED_FOLDER_CONFIGS[tab]
+def remove_selected_folder_file_handler(main_window, tab, mode="folder"):
+    config = (
+        mode == "folder" and SELECTED_FOLDER_CONFIGS[tab] or SELECTED_FILE_CONFIGS[tab]
+    )
 
     removed = remove_selected_paths(
-        getattr(main_window, config["folder_list"]),
-        getattr(main_window, config["folders"]),
+        getattr(main_window, mode == "folder" and config["folder_list"] or config["files_list"]),
+        getattr(main_window, mode == "folder" and config["folders"] or config["files"]),
     )
     if removed > 0:
         update_display(
-            list_widget=getattr(main_window, config["folder_list"]),
-            line_edit=getattr(main_window, config["folder_line"]),
-            count_label=getattr(main_window, config["count_label"]),
-            items=getattr(main_window, config["folders"]),
+            list_widget=getattr(main_window, mode == "folder" and config["folder_list"] or config["files_list"]),
+            line_edit=getattr(main_window, mode == "folder" and config["folder_line"] or config["files_line"]),
+            count_label=getattr(main_window, config.get("count_label")),
+            items=getattr(main_window, mode == "folder" and config["folders"] or config["files"]),
         )
-        main_window.statusbar.showMessage(f"Removed {removed} folder(s)")
+        main_window.statusbar.showMessage(f"Removed {removed} folder(s)" if mode == "folder" else f"Removed {removed} file(s)")

@@ -23,6 +23,7 @@ from src.gui.utils import (
     clear_folder_file_handler,
     selected_folders_files_handler,
     clear_folders_files_handler,
+    remove_selected_folder_file_handler
 )
 
 
@@ -135,7 +136,7 @@ class JsonGeneratorTab:
             )
         )
         self.main_window.clearBtnInTab3.clicked.connect(
-            lambda: clear_folder_file_handler(self.main_window, "json generator")
+            lambda: clear_folder_file_handler(self.main_window, "json generator", mode="folder")
         )
 
         # Select excel files
@@ -155,7 +156,7 @@ class JsonGeneratorTab:
         )
         self.main_window.removeSelectedBtnInTab3.clicked.connect(
             lambda: remove_selected_folder_file_handler(
-                self.main_window, "json generator"
+                self.main_window, "json generator", mode="files"
             )
         )
 
@@ -183,7 +184,7 @@ class JsonGeneratorTab:
         folder_prefix = extract_folder_prefix(
             self.main_window.selected_gen_json_folder[0]
         )
-        if folder_prefix != exp_code:
+        if folder_prefix.lower() != exp_code.lower():
             unmatched_paths.append(self.main_window.selected_gen_json_folder[0])
 
         # Check excel files name
@@ -191,7 +192,7 @@ class JsonGeneratorTab:
 
         for excel_path in excel_paths:
             excel_prefix = extract_excel_prefix(excel_path, separator="_")
-            if excel_prefix != exp_code:
+            if excel_prefix.lower() != exp_code.lower():
                 unmatched_paths.append(excel_path)
 
         if unmatched_paths:
