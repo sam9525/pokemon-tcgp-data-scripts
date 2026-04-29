@@ -6,8 +6,10 @@ EXPANSIONS_SHORT = [
     {"name": "A3_celestial-guardians", "code": "A3"},
     {"name": "A4_wisdom-of-sea-and-sky", "code": "A4"},
     {"name": "B1_mega-brave", "code": "B1"},
-    {"name": "promo-a", "code": "promo-a"},
-    {"name": "promo-b", "code": "promo-b"},
+    {"name": "B2_fantastical-parade", "code": "B2"},
+    {"name": "B3_pulsing-aura", "code": "B3"},
+    {"name": "promo-a", "code": "PROMO-A"},
+    {"name": "promo-b", "code": "PROMO-B"},
 ]
 
 EXPANSIONS = [
@@ -24,8 +26,12 @@ EXPANSIONS = [
     {"name": "A4b_deluxe-pack-ex", "code": "A4b"},
     {"name": "B1_mega-brave", "code": "B1"},
     {"name": "B1a_crimson-blaze", "code": "B1a"},
-    {"name": "promo-a", "code": "promo-a"},
-    {"name": "promo-b", "code": "promo-b"},
+    {"name": "B2_fantastical-parade", "code": "B2"},
+    {"name": "B2a_paldean-wonders", "code": "B2a"},
+    {"name": "B2b_mega-shine", "code": "B2b"},
+    {"name": "B3_pulsing-aura", "code": "B3"},
+    {"name": "promo-a", "code": "PROMO-A"},
+    {"name": "promo-b", "code": "PROMO-B"},
 ]
 
 BOOSTER_PACKS = [
@@ -37,6 +43,8 @@ BOOSTER_PACKS = [
     {"name": "Secluded-Springs", "code": "A4a"},
     {"name": "Deluxe-Pack-ex", "code": "A4b"},
     {"name": "Crimson-Blaze", "code": "B1a"},
+    {"name": "Paldean-Wonders", "code": "B2a"},
+    {"name": "Mega-Shine", "code": "B2b"},
 ]
 
 PACK_KEYS = [
@@ -59,7 +67,11 @@ PACK_KEYS = [
     {"name": "Mega Altaria", "code": "BN001_0030_00_000"},
     {"name": "Mega Blaziken", "code": "BN001_0010_00_000"},
     {"name": "Mega Gyarados", "code": "BN001_0020_00_000"},
-    {"name": "Crimson Blaze", "code": "BN002_0010_00_000"},
+    {"name": "Crimson Blaze", "code": "BN002_0010_00_000"}, 
+    {"name": "Fantastical Parade", "code": "BN003_0010_00_000"},
+    {"name": "Paldean Wonders", "code": "BN004_0010_00_000"},
+    {"name": "Mega Shine", "code": "BN005_0010_00_000"},
+    {"name": "Pulsing Aura", "code": "BN006_0010_00_000"},
 ]
 
 MATCH_EXP_AND_PACK = {
@@ -76,6 +88,11 @@ MATCH_EXP_AND_PACK = {
     "A4b": "AN011_0010_00_000",
     "B1": ["BN001_0010_00_000", "BN001_0020_00_000", "BN001_0030_00_000"],
     "B1a": ["BN002_0010_00_000"],
+    "B2": ["BN003_0010_00_000"],
+    "B2a": ["BN004_0010_00_000"],
+    "B2b": ["BN005_0010_00_000"],
+    "B3": ["BN006_0010_00_000"],
+
 }
 
 WEAKNESS_MAP = {
