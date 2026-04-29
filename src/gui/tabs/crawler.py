@@ -163,12 +163,16 @@ class CrawlerTab:
         self.main_window.crawlerProgressBar.setMaximum(100)
         self.main_window.crawlerProgressBar.setValue(0)
 
-        # Check the Expansion and Pack Key are matched
-        if not self.check_exp_and_pack_key():
-            self.main_window.statusbar.showMessage(
-                "The Expansion and Pack Key are not matched!"
-            )
-            return
+        if self.main_window.expRadioBtn.isChecked():
+            # No need to check pack key when crawling by expansion only
+            pass
+        elif self.main_window.packRadioBtn.isChecked():
+            # Check the Expansion and Pack Key are matched
+            if not self.check_exp_and_pack_key():
+                self.main_window.statusbar.showMessage(
+                    "The Expansion and Pack Key are not matched!"
+                )
+                return
 
         # Set to disabled
         set_controls_enabled(self.main_window, "crawler", False)
