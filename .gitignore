@@ -1,0 +1,30 @@
+__pycache__
+
+/json
+/lists
+
+*.bat
+
+check_crop.py
+
+/venv
+build
+dist
+*.spec
+*.exe
+
+.env
+
+icon_to_img.py
+
+tests/B1 - Mega Rising
+tests/test-image
+
+debug_card_analysis.py
+
+.claude
+
+# Testing Image
+visualized_cPK_10_000010_00_FUSHIGIDANE_C_M_M_ja_JP.png
+visualized_cPK_90_000890_00_GEKKOUGA_R_M_M_ja_JP.png
+visualized_cTR_20_000130_00_KATSURA_SR_M_M_ja_JP.png
