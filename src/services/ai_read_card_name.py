@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import os
 from google import genai
 from google.genai import types
 from src.utils import log
@@ -63,11 +64,16 @@ def analyze_card_name(image_path, lang, client, pbar=None):
 
         height, width = img.shape[:2]
 
-        # Crop region covering both potential name locations
-        left = int(width * CARD_REGIONS["name"]["left"])
-        top = int(height * CARD_REGIONS["name"]["top"])
-        right = int(width * CARD_REGIONS["name"]["right"])
-        bottom = int(height * CARD_REGIONS["name"]["bottom"])
+        # Check if the card is a Pokemon card by checking filename prefix
+        filename = os.path.basename(image_path)
+        is_pokemon = filename.startswith("cPK") or "_cPK_" in filename
+
+        region_key = "name_pokemon" if is_pokemon else "name"
+
+        left = int(width * CARD_REGIONS[region_key]["left"])
+        top = int(height * CARD_REGIONS[region_key]["top"])
+        right = int(width * CARD_REGIONS[region_key]["right"])
+        bottom = int(height * CARD_REGIONS[region_key]["bottom"])
 
         crop = img[top:bottom, left:right]
 

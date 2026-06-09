@@ -67,7 +67,7 @@ PACK_KEYS = [
     {"name": "Mega Altaria", "code": "BN001_0030_00_000"},
     {"name": "Mega Blaziken", "code": "BN001_0010_00_000"},
     {"name": "Mega Gyarados", "code": "BN001_0020_00_000"},
-    {"name": "Crimson Blaze", "code": "BN002_0010_00_000"}, 
+    {"name": "Crimson Blaze", "code": "BN002_0010_00_000"},
     {"name": "Fantastical Parade", "code": "BN003_0010_00_000"},
     {"name": "Paldean Wonders", "code": "BN004_0010_00_000"},
     {"name": "Mega Shine", "code": "BN005_0010_00_000"},
@@ -92,7 +92,6 @@ MATCH_EXP_AND_PACK = {
     "B2a": ["BN004_0010_00_000"],
     "B2b": ["BN005_0010_00_000"],
     "B3": ["BN006_0010_00_000"],
-
 }
 
 WEAKNESS_MAP = {
@@ -113,7 +112,8 @@ CARD_REGIONS = {
     "weakness": {"top": 0.86, "bottom": 0.89, "left": 0.28, "right": 0.33},
     "attack": {"top": 0.55, "bottom": 0.80, "left": 0.05, "right": 0.30},
     "trainer": {"top": 0.03, "bottom": 0.06, "left": 0.05, "right": 0.15},
-    "name": {"top": 0.037, "bottom": 0.13, "left": 0.04, "right": 0.65},
+    "name": {"top": 0.06, "bottom": 0.13, "left": 0.04, "right": 0.80},
+    "name_pokemon": {"top": 0.03, "bottom": 0.1, "left": 0.16, "right": 0.72},
 }
 
 LANGUAGES = {
